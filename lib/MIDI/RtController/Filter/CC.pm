@@ -245,6 +245,8 @@ L<Iterator::Breathe>
 
 L<Time::HiRes>
 
+L<Types::Common::Numeric>
+
 L<Types::MIDI>
 
 L<Types::Standard>
