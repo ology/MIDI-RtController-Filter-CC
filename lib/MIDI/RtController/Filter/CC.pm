@@ -209,7 +209,10 @@ not.
 
 =head2 breathe
 
-TBD
+This filter sets the B<running> flag and then iterates between the
+B<range_bottom> and B<range_top> by B<range_step> increments, sending
+a B<control> change message, over the MIDI B<channel> every iteration,
+until B<stop> is seen.
 
 =cut
 
