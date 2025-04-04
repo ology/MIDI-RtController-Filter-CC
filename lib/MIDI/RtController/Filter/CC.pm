@@ -98,7 +98,7 @@ has channel => (
   $control = $filter->control;
   $filter->control($number);
 
-Return or set the control change number.
+Return or set the control change number between C<0> and C<127>.
 
 Default: C<1> (mod-wheel)
 
