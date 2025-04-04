@@ -157,6 +157,23 @@ has time_step => (
     default => 250_000,
 );
 
+=head2 running
+
+  $running = $rtf->running;
+  $rtf->running($boolean);
+
+Are we running a filter?
+
+Default: C<0>
+
+=cut
+
+has running => (
+    is      => 'rw',
+    isa     => Bool,
+    default => 0,
+);
+
 =head2 verbose
 
   $verbose = $rtf->verbose;
@@ -196,6 +213,8 @@ TBD
 =cut
 
 sub breathe ($self, $device, $dt, $event) {
+    return 0 if $self->running;
+
     my ($ev, $chan, $ctl, $val) = $event->@*;
 
     my $it = Iterator::Breathe->new(
@@ -203,6 +222,8 @@ sub breathe ($self, $device, $dt, $event) {
         top    => $self->range_top,
         step   => $self->range_step,
     );
+
+    $self->running(1);
 
     while (1) {
         $it->iterate;
