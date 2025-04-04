@@ -21,3 +21,5 @@ my $rtf = MIDI::RtController::Filter::CC->new(rtc => $rtc);
 $rtc->add_filter('breathe', ['all'], $rtf->curry::breathe);
 
 $rtc->run;
+
+# ...and now trigger a MIDI message!
