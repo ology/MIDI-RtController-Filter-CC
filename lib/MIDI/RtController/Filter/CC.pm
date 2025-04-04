@@ -50,7 +50,7 @@ All filter methods must accept the object, a MIDI device name, a
 delta-time, and a MIDI event ARRAY reference, like:
 
   sub breathe ($self, $device, $delta, $event) {
-    my ($event_type, $chan, $note, $value) = $event->@*;
+    my ($event_type, $chan, $control, $value) = $event->@*;
     ...
     return $boolean;
   }
