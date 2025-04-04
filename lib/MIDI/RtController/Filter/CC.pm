@@ -35,8 +35,6 @@ use namespace::clean;
 C<MIDI::RtController::Filter::CC> is a (growing) collection of
 control-change based L<MIDI::RtController> filters.
 
-=cut
-
 =head1 ATTRIBUTES
 
 =head2 rtc
