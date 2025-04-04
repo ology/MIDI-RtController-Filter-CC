@@ -21,7 +21,10 @@ use namespace::clean;
   use MIDI::RtController ();
   use MIDI::RtController::Filter::CC ();
 
-  my $rtc = MIDI::RtController->new; # * input/output required
+  my $rtc = MIDI::RtController->new(
+    input  => 'keyboard',
+    output => 'usb',
+  );
 
   my $rtf = MIDI::RtController::Filter::CC->new(rtc => $rtc);
 
