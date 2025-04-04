@@ -1,6 +1,7 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Fix synopsis.
 
 0.0100 2025-04-04 01:25:04
   - Add the breathe() filter.
