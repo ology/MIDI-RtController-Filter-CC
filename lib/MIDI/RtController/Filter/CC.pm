@@ -5,7 +5,6 @@ package MIDI::RtController::Filter::CC;
 use v5.36;
 
 use strictures 2;
-use Data::Dumper::Compact qw(ddc);
 use Iterator::Breathe ();
 use Moo;
 use Time::HiRes qw(usleep);
@@ -174,18 +173,18 @@ has running => (
     default => 0,
 );
 
-=head2 verbose
+=head2 stop
 
-  $verbose = $rtf->verbose;
-  $rtf->verbose($number);
+  $stop = $rtf->stop;
+  $rtf->stop($boolean);
 
-Show progress.
+Stop running a filter.
 
 Default: C<0>
 
 =cut
 
-has verbose => (
+has stop => (
     is      => 'rw',
     isa     => Bool,
     default => 0,
@@ -225,10 +224,9 @@ sub breathe ($self, $device, $dt, $event) {
 
     $self->running(1);
 
-    while (1) {
+    while (!$self->stop) {
         $it->iterate;
         my $cc = [ 'control_change', $self->channel, $self->control, $it->i ];
-        warn ddc $cc if $self->verbose;
         $self->rtc->send_it($cc);
         usleep $self->time_step;
     }
