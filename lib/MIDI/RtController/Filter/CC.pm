@@ -226,7 +226,7 @@ Return a new C<MIDI::RtController::Filter::CC> object.
 
   $control->add_filter('breathe', all => $filter->curry::breathe);
 
-This filter sets the B<running> flag and then iterates between the
+This filter sets the B<running> flag, then iterates between the
 B<range_bottom> and B<range_top> by B<range_step> increments, sending
 a B<control> change message, over the MIDI B<channel> every iteration,
 until B<stop> is seen.
@@ -252,6 +252,39 @@ sub breathe ($self, $device, $dt, $event) {
     while (!$self->stop) {
         $it->iterate;
         my $cc = [ 'control_change', $self->channel, $self->control, $it->i ];
+        $self->rtc->send_it($cc);
+        usleep $self->time_step;
+    }
+
+    return 0;
+}
+
+=head2 scatter
+
+  $control->add_filter('scatter', all => $filter->curry::scatter);
+
+This filter sets the B<running> flag, chooses a random number between
+the B<range_bottom> and B<range_top>, and sends that as the value of a
+B<control> change message, over the MIDI B<channel>, every iteration,
+until B<stop> is seen.
+
+Passing C<all> means that any MIDI event will cause this filter to be
+triggered.
+
+=cut
+
+sub scatter ($self, $device, $dt, $event) {
+    return 0 if $self->running;
+
+    my ($ev, $chan, $ctl, $val) = $event->@*;
+
+    $self->running(1);
+
+    my @values = (0 .. 127);
+
+    while (!$self->stop) {
+        my $value = $values[ int rand @values ];
+        my $cc = [ 'control_change', $self->channel, $self->control, $value ];
         $self->rtc->send_it($cc);
         usleep $self->time_step;
     }
