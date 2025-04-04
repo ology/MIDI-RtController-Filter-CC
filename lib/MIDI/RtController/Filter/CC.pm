@@ -2,6 +2,8 @@ package MIDI::RtController::Filter::CC;
 
 # ABSTRACT: Control-change based RtController filters
 
+our $VERSION = '0.0100';
+
 use v5.36;
 
 use strictures 2;
