@@ -1,7 +1,7 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
-  - Fix synopsis.
+  - Fix synopsis and the eg/control-change.pl program.
 
 0.0100 2025-04-04 01:25:04
   - Add the breathe() filter.
