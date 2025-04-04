@@ -1,0 +1,5 @@
+Revision history for MIDI-RtController-Filter-CC
+
+{{$NEXT}}
+  - Add the breathe() filter.
+  - Port from MIDI::RtController::Filter::Math
