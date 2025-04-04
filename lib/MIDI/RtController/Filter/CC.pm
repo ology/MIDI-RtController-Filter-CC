@@ -50,6 +50,7 @@ All filter methods must accept the object, a MIDI device name, a
 delta-time, and a MIDI event ARRAY reference, like:
 
   sub breathe ($self, $device, $delta, $event) {
+    return 0 if $self->running;
     my ($event_type, $chan, $control, $value) = $event->@*;
     ...
     return $boolean;
@@ -108,6 +109,24 @@ has control => (
     is      => 'rw',
     isa     => Velocity, # no CC# in Types::MIDI yet
     default => 1,
+);
+
+=head2 initial_point
+
+  $initial_point = $filter->initial_point;
+  $filter->initial_point($number);
+
+Return or set the control change initial point number between C<0> and
+C<127>.
+
+Default: C<0>
+
+=cut
+
+has initial_point => (
+    is      => 'rw',
+    isa     => Velocity, # no CC# msg value in Types::MIDI yet
+    default => 0,
 );
 
 =head2 range_bottom
@@ -178,6 +197,40 @@ has time_step => (
     is      => 'rw',
     isa     => PositiveNum,
     default => 250_000,
+);
+
+=head2 step_up
+
+  $step_up = $filter->step_up;
+  $filter->step_up($number);
+
+The current iteration upward step.
+
+Default: C<2>
+
+=cut
+
+has step_up => (
+    is      => 'rw',
+    isa     => PositiveNum,
+    default => 2,
+);
+
+=head2 step_down
+
+  $step_down = $filter->step_down;
+  $filter->step_down($number);
+
+The current iteration downward step.
+
+Default: C<1>
+
+=cut
+
+has step_down => (
+    is      => 'rw',
+    isa     => PositiveNum,
+    default => 1,
 );
 
 =head2 running
@@ -280,12 +333,60 @@ sub scatter ($self, $device, $dt, $event) {
 
     $self->running(1);
 
-    my @values = (0 .. 127);
+    my $value  = $self->initial_point;
+    my @values = ($self->range_bottom .. $self->range_top);
 
     while (!$self->stop) {
-        my $value = $values[ int rand @values ];
         my $cc = [ 'control_change', $self->channel, $self->control, $value ];
         $self->rtc->send_it($cc);
+        $value = $values[ int rand @values ];
+        usleep $self->time_step;
+    }
+
+    return 0;
+}
+
+=head2 stair_step
+
+  $control->add_filter('stair_step', all => $filter->curry::stair_step);
+
+This filter sets the B<running> flag, chooses a number starting at the
+B<initial_point>, adds B<step_up> or subtracts B<step_down>
+successively, sending that value as a B<control> change message, over
+the MIDI B<channel>, every iteration, until B<stop> is seen.
+
+Passing C<all> means that any MIDI event will cause this filter to be
+triggered.
+
+=cut
+
+sub stair_step ($self, $device, $dt, $event) {
+    return 0 if $self->running;
+
+    my ($ev, $chan, $ctl, $val) = $event->@*;
+
+    $self->running(1);
+
+    my $value  = $self->initial_point;
+    my @values = ($self->range_bottom .. $self->range_top);
+
+    my $direction = 1; # up
+
+    while (!$self->stop) {
+        my $cc = [ 'control_change', $self->channel, $self->control, $value ];
+        $self->rtc->send_it($cc);
+
+        if ($direction) {
+            $value = $value + $self->step_up < $self->range_top ? $value + $self->step_up
+                                                                : $self->range_top;
+            $direction = 0;
+        }
+        else {
+            $value = $value - $self->step_down > $self->range_bottom ? $value - $self->step_down
+                                                                     : $self->range_bottom;
+            $direction = 1;
+        }
+
         usleep $self->time_step;
     }
 
