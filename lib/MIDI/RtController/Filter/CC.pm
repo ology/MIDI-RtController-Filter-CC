@@ -91,7 +91,7 @@ has control => (
   $range_bottom = $rtf->range_bottom;
   $rtf->range_bottom($number);
 
-The current iteration bottom or lowest number value.
+The current iteration lowest number value.
 
 Default: C<0>
 
@@ -108,7 +108,7 @@ has range_bottom => (
   $range_top = $rtf->range_top;
   $rtf->range_top($number);
 
-The current iteration top or highest number value.
+The current iteration highest number value.
 
 Default: C<127>
 
