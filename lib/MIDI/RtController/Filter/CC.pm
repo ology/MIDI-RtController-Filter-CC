@@ -25,7 +25,7 @@ use namespace::clean;
 
   my $rtf = MIDI::RtController::Filter::CC->new(rtc => $rtc);
 
-  $rtf->range_bottom(0);
+  $rtf->range_bottom(10);
   $rtf->range_top(100);
   $rtf->range_step(2);
 
