@@ -239,9 +239,9 @@ __END__
 
 =head1 SEE ALSO
 
-L<Moo>
-
 L<Iterator::Breathe>
+
+L<Moo>
 
 L<Time::HiRes>
 
