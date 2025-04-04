@@ -6,6 +6,6 @@ use Test::More;
 
 use_ok 'MIDI::RtController::Filter::CC';
 
-diag 'live testing is impossible';
+diag 'live testing is not possible';
 
 done_testing();
