@@ -30,8 +30,8 @@ use namespace::clean;
 
 =head1 DESCRIPTION
 
-C<MIDI::RtController::Filter::CC> is the collection of Control-change
-based L<MIDI::RtController> filters.
+C<MIDI::RtController::Filter::CC> is a (growing) collection of
+control-change based L<MIDI::RtController> filters.
 
 =cut
 
