@@ -21,23 +21,23 @@ use namespace::clean;
   use MIDI::RtController ();
   use MIDI::RtController::Filter::CC ();
 
-  my $rtc = MIDI::RtController->new(
+  my $control = MIDI::RtController->new(
     input  => 'keyboard',
     output => 'usb',
   );
 
-  my $rtf = MIDI::RtController::Filter::CC->new(rtc => $rtc);
+  my $filter = MIDI::RtController::Filter::CC->new(rtc => $control);
 
-  $rtf->channel(1);
-  $rtf->control(77);
-  $rtf->range_bottom(10);
-  $rtf->range_top(100);
-  $rtf->range_step(2);
-  $rtf->time_step(125_000);
+  $filter->channel(1);
+  $filter->control(77);
+  $filter->range_bottom(10);
+  $filter->range_top(100);
+  $filter->range_step(2);
+  $filter->time_step(125_000);
 
-  $rtc->add_filter('breathe', all => $rtf->curry::breathe);
+  $control->add_filter('breathe', all => $filter->curry::breathe);
 
-  $rtc->run;
+  $control->run;
 
 =head1 DESCRIPTION
 
@@ -48,7 +48,7 @@ control-change based L<MIDI::RtController> filters.
 
 =head2 rtc
 
-  $rtc = $rtf->rtc;
+  $rtc = $filter->rtc;
 
 The required L<MIDI::RtController> instance provided in the
 constructor.
@@ -63,8 +63,8 @@ has rtc => (
 
 =head2 channel
 
-  $channel = $rtf->channel;
-  $rtf->channel($number);
+  $channel = $filter->channel;
+  $filter->channel($number);
 
 The current MIDI channel value between C<0> and C<15>.
 
@@ -80,8 +80,8 @@ has channel => (
 
 =head2 control
 
-  $control = $rtf->control;
-  $rtf->control($number);
+  $control = $filter->control;
+  $filter->control($number);
 
 The current MIDI control-change number ("CC#") between C<0> and C<127>.
 
@@ -97,8 +97,8 @@ has control => (
 
 =head2 range_bottom
 
-  $range_bottom = $rtf->range_bottom;
-  $rtf->range_bottom($number);
+  $range_bottom = $filter->range_bottom;
+  $filter->range_bottom($number);
 
 The current iteration lowest number value.
 
@@ -114,8 +114,8 @@ has range_bottom => (
 
 =head2 range_top
 
-  $range_top = $rtf->range_top;
-  $rtf->range_top($number);
+  $range_top = $filter->range_top;
+  $filter->range_top($number);
 
 The current iteration highest number value.
 
@@ -131,8 +131,8 @@ has range_top => (
 
 =head2 range_step
 
-  $range_step = $rtf->range_step;
-  $rtf->range_step($number);
+  $range_step = $filter->range_step;
+  $filter->range_step($number);
 
 A number greater than zero representing the current iteration step
 size between B<bottom> and B<top>.
@@ -149,8 +149,8 @@ has range_step => (
 
 =head2 time_step
 
-  $time_step = $rtf->time_step;
-  $rtf->time_step($number);
+  $time_step = $filter->time_step;
+  $filter->time_step($number);
 
 The current iteration step in microseconds (where
 C<1,000,000> = C<1> second).
@@ -167,8 +167,8 @@ has time_step => (
 
 =head2 running
 
-  $running = $rtf->running;
-  $rtf->running($boolean);
+  $running = $filter->running;
+  $filter->running($boolean);
 
 Are we running a filter?
 
@@ -184,8 +184,8 @@ has running => (
 
 =head2 stop
 
-  $stop = $rtf->stop;
-  $rtf->stop($boolean);
+  $stop = $filter->stop;
+  $filter->stop($boolean);
 
 Stop running a filter.
 
