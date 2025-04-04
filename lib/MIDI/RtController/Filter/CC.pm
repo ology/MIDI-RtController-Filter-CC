@@ -224,10 +224,15 @@ Return a new C<MIDI::RtController::Filter::CC> object.
 
 =head2 breathe
 
+  $control->add_filter('breathe', all => $filter->curry::breathe);
+
 This filter sets the B<running> flag and then iterates between the
 B<range_bottom> and B<range_top> by B<range_step> increments, sending
 a B<control> change message, over the MIDI B<channel> every iteration,
 until B<stop> is seen.
+
+Passing C<all> means that any MIDI event will cause this filter to be
+triggered.
 
 =cut
 
