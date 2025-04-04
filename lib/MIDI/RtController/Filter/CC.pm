@@ -25,9 +25,12 @@ use namespace::clean;
 
   my $rtf = MIDI::RtController::Filter::CC->new(rtc => $rtc);
 
+  $rtf->channel(1);
+  $rtf->control(77);
   $rtf->range_bottom(10);
   $rtf->range_top(100);
   $rtf->range_step(2);
+  $rtf->time_step(125_000);
 
   $rtc->add_filter('breathe', all => $rtf->curry::breathe);
 
