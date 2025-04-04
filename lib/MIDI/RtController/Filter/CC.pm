@@ -28,8 +28,8 @@ use namespace::clean;
 
   my $filter = MIDI::RtController::Filter::CC->new(rtc => $control);
 
-  $filter->channel(1);
-  $filter->control(77);
+  $filter->control(1); # CC#01 = mod-wheel
+  $filter->channel(0);
   $filter->range_bottom(10);
   $filter->range_top(100);
   $filter->range_step(2);
@@ -43,6 +43,21 @@ use namespace::clean;
 
 C<MIDI::RtController::Filter::CC> is a (growing) collection of
 control-change based L<MIDI::RtController> filters.
+
+=head2 Making filters
+
+All filter methods must accept the object, a MIDI device name, a
+delta-time, and a MIDI event ARRAY reference, like:
+
+  sub breathe ($self, $device, $delta, $event) {
+    my ($event_type, $chan, $note, $value) = $event->@*;
+    ...
+    return $boolean;
+  }
+
+A filter also must return a boolean value. This tells
+L<MIDI::RtController> to continue processing other known filters or
+not.
 
 =head1 ATTRIBUTES
 
@@ -83,9 +98,9 @@ has channel => (
   $control = $filter->control;
   $filter->control($number);
 
-The current MIDI control-change number ("CC#") between C<0> and C<127>.
+Return or set the control change number.
 
-Default: C<1> (synthesizer mod-wheel)
+Default: C<1> (mod-wheel)
 
 =cut
 
@@ -201,18 +216,11 @@ has stop => (
 
 =head1 METHODS
 
-All filter methods must accept the object, a MIDI device name, a
-delta-time, and a MIDI event ARRAY reference, like:
+=head2 new
 
-  sub breathe ($self, $device, $delta, $event) {
-    my ($event_type, $chan, $note, $value) = $event->@*;
-    ...
-    return $boolean;
-  }
+  $filter = MIDI::RtController::Filter::CC->new(%arguments);
 
-A filter also must return a boolean value. This tells
-L<MIDI::RtController> to continue processing other known filters or
-not.
+Return a new C<MIDI::RtController::Filter::CC> object.
 
 =head2 breathe
 
