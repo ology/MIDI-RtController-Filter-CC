@@ -3,7 +3,6 @@
 # PERL_FUTURE_DEBUG=1 perl eg/math.pl
 
 use curry;
-use Future::IO::Impl::IOAsync;
 use MIDI::RtController ();
 use MIDI::RtController::Filter::CC ();
 
