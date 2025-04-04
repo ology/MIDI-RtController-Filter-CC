@@ -125,8 +125,8 @@ has range_top => (
   $range_step = $rtf->range_step;
   $rtf->range_step($number);
 
-The current iteration step size between B<bottom> and B<top>. And any
-number greater than zero will work.
+A number greater than zero representing the current iteration step
+size between B<bottom> and B<top>.
 
 Default: C<1>
 
