@@ -143,8 +143,8 @@ has range_step => (
   $time_step = $rtf->time_step;
   $rtf->time_step($number);
 
-The current iteration step in microseconds, where
-C<1,000,000> = C<1> second.
+The current iteration step in microseconds (where
+C<1,000,000> = C<1> second).
 
 Default: C<250_000> (a quarter of a second)
 
