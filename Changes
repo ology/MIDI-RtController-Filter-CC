@@ -1,6 +1,8 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Add the scatter filter.
+  - Improve documentation.
 
 0.0104 2025-04-04 13:21:42
   - Improve documentation yet again!
