@@ -2,6 +2,7 @@ Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
   - Add the stair_step filter.
+  - Improve the scatter filter.
 
 0.0200 2025-04-04 13:52:40
   - Add the scatter filter.
