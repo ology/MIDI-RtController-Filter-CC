@@ -1,6 +1,8 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+
+0.0101 2025-04-04 11:22:22
   - Fix synopsis and the eg/control-change.pl program.
 
 0.0100 2025-04-04 01:25:04
