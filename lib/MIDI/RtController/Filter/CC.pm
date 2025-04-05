@@ -388,16 +388,15 @@ sub stair_step ($self, $device, $dt, $event) {
                                                                        : $self->range_bottom;
         }
 
-        $value = $self->range_top    if $value > $self->range_top;
-        $value = $self->range_bottom if $value < $self->range_bottom;
-
         $direction = !$direction;
 
         if ($value >= $self->range_top) {
+            $value = $self->range_top;
             $self->step_up(-$up);
             $self->step_down(-$down);
         }
         if ($value <= $self->range_bottom) {
+            $value = $self->range_bottom;
             $self->step_up($up);
             $self->step_down($down);
         }
