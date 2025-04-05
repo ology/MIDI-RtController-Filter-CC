@@ -321,6 +321,9 @@ the B<range_bottom> and B<range_top>, and sends that as the value of a
 B<control> change message, over the MIDI B<channel>, every iteration,
 until B<stop> is seen.
 
+The B<initial_point> is used as the first CC# message, then the
+randomization takes over.
+
 Passing C<all> means that any MIDI event will cause this filter to be
 triggered.
 
