@@ -212,7 +212,7 @@ Default: C<2>
 
 has step_up => (
     is      => 'rw',
-    isa     => PositiveNum,
+    isa     => Num,
     default => 2,
 );
 
@@ -229,7 +229,7 @@ Default: C<1>
 
 has step_down => (
     is      => 'rw',
-    isa     => PositiveNum,
+    isa     => Num,
     default => 1,
 );
 
@@ -372,19 +372,34 @@ sub stair_step ($self, $device, $dt, $event) {
 
     my $direction = 1; # up
 
+    my $up   = $self->step_up;
+    my $down = $self->step_down;
+
     while (!$self->stop) {
         my $cc = [ 'control_change', $self->channel, $self->control, $value ];
         $self->rtc->send_it($cc);
 
         if ($direction) {
-            $value = $value + $self->step_up < $self->range_top ? $value + $self->step_up
-                                                                : $self->range_top;
-            $direction = 0;
+            $value = ($value + $self->step_up) < $self->range_top ? $value + $self->step_up
+                                                                  : $self->range_top;
         }
         else {
-            $value = $value - $self->step_down > $self->range_bottom ? $value - $self->step_down
-                                                                     : $self->range_bottom;
-            $direction = 1;
+            $value = ($value - $self->step_down) > $self->range_bottom ? $value - $self->step_down
+                                                                       : $self->range_bottom;
+        }
+
+        $value = $self->range_top    if $value > $self->range_top;
+        $value = $self->range_bottom if $value < $self->range_bottom;
+
+        $direction = !$direction;
+
+        if ($value >= $self->range_top) {
+            $self->step_up(-$up);
+            $self->step_down(-$down);
+        }
+        if ($value <= $self->range_bottom) {
+            $self->step_up($up);
+            $self->step_down($down);
         }
 
         usleep $self->time_step;
