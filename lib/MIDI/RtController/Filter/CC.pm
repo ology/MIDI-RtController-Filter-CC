@@ -353,10 +353,11 @@ sub scatter ($self, $device, $dt, $event) {
 
   $control->add_filter('stair_step', all => $filter->curry::stair_step);
 
-This filter sets the B<running> flag, chooses a number starting at the
-B<initial_point>, adds B<step_up> or subtracts B<step_down>
-successively, sending that value as a B<control> change message, over
-the MIDI B<channel>, every iteration, until B<stop> is seen.
+This filter sets the B<running> flag, uses the B<initial_point> for
+the fist CC# message, then adds B<step_up> or subtracts B<step_down>
+from that number successively, sending the value as a B<control>
+change message, over the MIDI B<channel>, every iteration, until
+B<stop> is seen.
 
 Passing C<all> means that any MIDI event will cause this filter to be
 triggered.
