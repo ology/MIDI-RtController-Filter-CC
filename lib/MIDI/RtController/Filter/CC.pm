@@ -388,8 +388,10 @@ sub stair_step ($self, $device, $dt, $event) {
                                                                        : $self->range_bottom;
         }
 
+        # toggle the stair-step direction
         $direction = !$direction;
 
+        # flip up to down and vice-versa
         if ($value >= $self->range_top) {
             $value = $self->range_top;
             $self->step_up(-$up);
