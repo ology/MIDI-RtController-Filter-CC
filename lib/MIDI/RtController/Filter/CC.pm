@@ -369,44 +369,38 @@ sub stair_step ($self, $device, $dt, $event) {
 
     my ($ev, $chan, $ctl, $val) = $event->@*;
 
+    my $it = Iterator::Breathe->new(
+        bottom => $self->range_bottom,
+        top    => $self->range_top,
+    );
+
     $self->running(1);
 
-    my $value  = $self->initial_point;
-    my @values = ($self->range_bottom .. $self->range_top);
-
+    my $value     = $self->initial_point;
     my $direction = 1; # up
-
-    my $up   = $self->step_up;
-    my $down = $self->step_down;
 
     while (!$self->stop) {
         my $cc = [ 'control_change', $self->channel, $self->control, $value ];
         $self->rtc->send_it($cc);
 
+        # compute the stair-stepping
         if ($direction) {
-            $value = ($value + $self->step_up) < $self->range_top ? $value + $self->step_up
-                                                                  : $self->range_top;
+            $it->step($self->step_up);
         }
         else {
-            $value = ($value - $self->step_down) > $self->range_bottom ? $value - $self->step_down
-                                                                       : $self->range_bottom;
+            $it->step(- $self->step_down);
         }
 
         # toggle the stair-step direction
         $direction = !$direction;
 
-        # flip up to down and vice-versa
-        if ($value >= $self->range_top) {
-            $value = $self->range_top;
-            $self->step_up(-$up);
-            $self->step_down(-$down);
-        }
-        if ($value <= $self->range_bottom) {
-            $value = $self->range_bottom;
-            $self->step_up($up);
-            $self->step_down($down);
-        }
+        # iterate the breathing
+        $it->iterate;
+        $value = $it->i;
+        $value = $self->range_top    if $value >= $self->range_top;
+        $value = $self->range_bottom if $value <= $self->range_bottom;
 
+        # pause until the next iteration
         usleep $self->time_step;
     }
 
