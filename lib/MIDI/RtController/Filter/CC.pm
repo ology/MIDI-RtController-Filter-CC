@@ -414,7 +414,7 @@ __END__
 
 =head1 SEE ALSO
 
-The F<eg/*.pl> program(s) in this distibution
+The F<eg/*.pl> program(s) in this distribution
 
 L<Iterator::Breathe>
 
