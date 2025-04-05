@@ -1,6 +1,8 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+
+0.0301 2025-04-04 21:45:42
   - Refactor the stair_step filter logic.
   - Improve documentation.
 
