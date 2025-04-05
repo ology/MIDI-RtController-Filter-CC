@@ -292,6 +292,8 @@ triggered.
 sub breathe ($self, $device, $dt, $event) {
     return 0 if $self->running;
 
+    $self->running(1);
+
     my ($ev, $chan, $ctl, $val) = $event->@*;
 
     my $it = Iterator::Breathe->new(
@@ -299,8 +301,6 @@ sub breathe ($self, $device, $dt, $event) {
         top    => $self->range_top,
         step   => $self->range_step,
     );
-
-    $self->running(1);
 
     while (!$self->stop) {
         $it->iterate;
@@ -332,9 +332,9 @@ triggered.
 sub scatter ($self, $device, $dt, $event) {
     return 0 if $self->running;
 
-    my ($ev, $chan, $ctl, $val) = $event->@*;
-
     $self->running(1);
+
+    my ($ev, $chan, $ctl, $val) = $event->@*;
 
     my $value  = $self->initial_point;
     my @values = ($self->range_bottom .. $self->range_top);
@@ -367,14 +367,14 @@ triggered.
 sub stair_step ($self, $device, $dt, $event) {
     return 0 if $self->running;
 
+    $self->running(1);
+
     my ($ev, $chan, $ctl, $val) = $event->@*;
 
     my $it = Iterator::Breathe->new(
         bottom => $self->range_bottom,
         top    => $self->range_top,
     );
-
-    $self->running(1);
 
     my $value     = $self->initial_point;
     my $direction = 1; # up
