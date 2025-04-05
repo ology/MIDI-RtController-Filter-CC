@@ -22,7 +22,7 @@ my $filter = MIDI::RtController::Filter::CC->new(rtc => $control);
 # $filter->time_step(500_000);
 # $control->add_filter('scatter', ['all'], $filter->curry::scatter);
 
-$filter->step_up(8);
+$filter->step_up(10);
 $filter->step_down(2);
 $control->add_filter('stair_step', ['all'], $filter->curry::stair_step);
 
