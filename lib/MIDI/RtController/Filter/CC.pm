@@ -8,7 +8,7 @@ use v5.36;
 
 use strictures 2;
 use Data::Dumper::Compact qw(ddc);
-use IO::Async::Timer::Periodic;
+use IO::Async::Timer::Periodic ();
 use Iterator::Breathe ();
 use Moo;
 use Time::HiRes qw(usleep);
