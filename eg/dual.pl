@@ -22,7 +22,7 @@ $filter1->control(1);
 # $filter1->range_bottom(10);
 # $filter1->range_top(100);
 # $filter1->range_step(2);
-# $filter1->time_step(125_000);
+# $filter1->time_step(0.4);
 # $filter1->step_up(10);
 # $filter1->step_down(2);
 
@@ -30,7 +30,7 @@ $filter2->control(22);
 $filter2->range_bottom(0);
 $filter2->range_top(90);
 $filter2->range_step(2);
-$filter2->time_step(125_000);
+# $filter2->time_step(0.5);
 # $filter2->step_up(10);
 # $filter2->step_down(2);
 
