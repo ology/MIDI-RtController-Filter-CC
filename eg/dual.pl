@@ -27,14 +27,14 @@ $filter1->control(1);
 # $filter1->step_down(2);
 
 $filter2->control(22);
-# $filter2->range_bottom(10);
-# $filter2->range_top(100);
-# $filter2->range_step(2);
-# $filter2->time_step(125_000);
+$filter2->range_bottom(0);
+$filter2->range_top(90);
+$filter2->range_step(2);
+$filter2->time_step(125_000);
 # $filter2->step_up(10);
 # $filter2->step_down(2);
 
-$control->add_filter('stair_step', ['all'], $filter1->curry::stair_step);
+$control->add_filter('scatter', ['all'], $filter1->curry::scatter);
 $control->add_filter('breathe', ['all'], $filter2->curry::breathe);
 
 $control->run;
