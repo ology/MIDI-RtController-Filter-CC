@@ -1,6 +1,7 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Enhance the eg/multi.pl example program.
 
 0.0400 2025-04-07 14:16:04
   - Use IO::Async::Timer::Periodic instead of while/usleep.
