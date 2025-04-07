@@ -28,8 +28,8 @@ $filter1->control(1);
 
 $filter2->control(22);
 $filter2->range_bottom(0);
-$filter2->range_top(90);
-$filter2->range_step(2);
+$filter2->range_top(80);
+# $filter2->range_step(2);
 # $filter2->time_step(0.5);
 # $filter2->step_up(10);
 # $filter2->step_down(2);
