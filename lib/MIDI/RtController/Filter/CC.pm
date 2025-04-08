@@ -413,15 +413,15 @@ __END__
 
 The F<eg/*.pl> program(s) in this distribution
 
+L<IO::Async::Timer::Periodic>
+
 L<Iterator::Breathe>
 
 L<Moo>
 
-L<Time::HiRes>
+L<Types::MIDI>
 
 L<Types::Common::Numeric>
-
-L<Types::MIDI>
 
 L<Types::Standard>
 
