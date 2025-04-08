@@ -10,7 +10,6 @@ use strictures 2;
 use IO::Async::Timer::Periodic ();
 use Iterator::Breathe ();
 use Moo;
-use Time::HiRes qw(usleep);
 use Types::MIDI qw(Channel Velocity);
 use Types::Common::Numeric qw(PositiveNum);
 use Types::Standard qw(Bool Num);
