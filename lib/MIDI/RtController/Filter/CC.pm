@@ -111,6 +111,25 @@ has control => (
     default => 1,
 );
 
+=head2 value
+
+  $value = $filter->value;
+  $filter->value($number);
+
+Return or set the control change value. This is a generic setting that
+can be used by filters to set state. This often a whole number between
+C<0> and C<127>, but can take any number.
+
+Default: C<0>
+
+=cut
+
+has value => (
+    is      => 'rw',
+    isa     => Num,
+    default => 1,
+);
+
 =head2 initial_point
 
   $initial_point = $filter->initial_point;
@@ -309,6 +328,24 @@ sub breathe ($self, $device, $dt, $event) {
         )->start
     );
 
+    return 0;
+}
+
+=head2 single
+
+  $control->add_filter('single', all => $filter->curry::single);
+
+This filter sets a single B<control> change message, over the MIDI
+B<channel> once.
+
+Passing C<all> means that any MIDI event will cause this filter to be
+triggered.
+
+=cut
+
+sub single ($self, $device, $dt, $event) {
+    my $cc = [ 'control_change', $self->channel, $self->control, $self->value ];
+    $self->rtc->send_it($cc);
     return 0;
 }
 
