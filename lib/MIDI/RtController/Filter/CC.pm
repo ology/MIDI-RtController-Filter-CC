@@ -417,6 +417,8 @@ L<IO::Async::Timer::Periodic>
 
 L<Iterator::Breathe>
 
+L<MIDI::RtController>
+
 L<Moo>
 
 L<Types::MIDI>
