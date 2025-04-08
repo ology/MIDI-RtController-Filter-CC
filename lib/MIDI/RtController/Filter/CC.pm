@@ -293,6 +293,24 @@ has stop => (
 
 Return a new C<MIDI::RtController::Filter::CC> object.
 
+=head2 single
+
+  $control->add_filter('single', all => $filter->curry::single);
+
+This filter sets a single B<control> change message, over the MIDI
+B<channel> once.
+
+Passing C<all> means that any MIDI event will cause this filter to be
+triggered.
+
+=cut
+
+sub single ($self, $device, $dt, $event) {
+    my $cc = [ 'control_change', $self->channel, $self->control, $self->value ];
+    $self->rtc->send_it($cc);
+    return 0;
+}
+
 =head2 breathe
 
   $control->add_filter('breathe', all => $filter->curry::breathe);
@@ -328,24 +346,6 @@ sub breathe ($self, $device, $dt, $event) {
         )->start
     );
 
-    return 0;
-}
-
-=head2 single
-
-  $control->add_filter('single', all => $filter->curry::single);
-
-This filter sets a single B<control> change message, over the MIDI
-B<channel> once.
-
-Passing C<all> means that any MIDI event will cause this filter to be
-triggered.
-
-=cut
-
-sub single ($self, $device, $dt, $event) {
-    my $cc = [ 'control_change', $self->channel, $self->control, $self->value ];
-    $self->rtc->send_it($cc);
     return 0;
 }
 
