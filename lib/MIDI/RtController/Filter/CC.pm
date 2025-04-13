@@ -7,6 +7,7 @@ our $VERSION = '0.0501';
 use v5.36;
 
 use strictures 2;
+use IO::Async::Timer::Countdown ();
 use IO::Async::Timer::Periodic ();
 use Iterator::Breathe ();
 use Moo;
@@ -43,6 +44,9 @@ use namespace::clean;
 
 C<MIDI::RtController::Filter::CC> is a (growing) collection of
 control-change based L<MIDI::RtController> filters.
+
+Passing C<all> to the C<add_filter> method means that any MIDI event
+will cause this filter to be triggered.
 
 =head2 Making filters
 
@@ -300,9 +304,6 @@ Return a new C<MIDI::RtController::Filter::CC> object.
 This filter sets a single B<control> change message, over the MIDI
 B<channel> once.
 
-Passing C<all> means that any MIDI event will cause this filter to be
-triggered.
-
 =cut
 
 sub single ($self, $device, $dt, $event) {
@@ -361,9 +362,6 @@ until B<stop> is seen.
 The B<initial_point> is used as the first CC# message, then the
 randomization takes over.
 
-Passing C<all> means that any MIDI event will cause this filter to be
-triggered.
-
 =cut
 
 sub scatter ($self, $device, $dt, $event) {
@@ -396,9 +394,6 @@ the fist CC# message, then adds B<step_up> or subtracts B<step_down>
 from that number successively, sending the value as a B<control>
 change message, over the MIDI B<channel>, every iteration, until
 B<stop> is seen.
-
-Passing C<all> means that any MIDI event will cause this filter to be
-triggered.
 
 =cut
 
@@ -440,6 +435,46 @@ sub stair_step ($self, $device, $dt, $event) {
             },
         )->start
     );
+    return 0;
+}
+
+=head2 ramp
+
+  $control->add_filter('ramp', all => $filter->curry::ramp);
+
+This filter ramps-up or down a B<control> change message, over the MIDI
+B<channel> until the top (or bottom) of the range is reached.
+
+=cut
+
+sub ramp ($self, $device, $dt, $event) {
+    return 0 if $self->running;
+    $self->running(1);
+
+    my $value = $self->range_bottom;
+
+    $self->rtc->loop->add(
+        IO::Async::Timer::Countdown->new(
+            delay     => $self->time_step,
+            on_expire => sub {
+                my $c = shift;
+
+                my $cc = [ 'control_change', $self->channel, $self->control, $value ];
+                $self->rtc->send_it($cc);
+
+                $value += $self->range_step;
+
+                if ($value >= $self->range_top) {
+                    $c->stop;
+                    $self->running(0);
+                }
+                else {
+                    $c->start;
+                }
+            },
+        )->start
+    );
+
     return 0;
 }
 
