@@ -1,6 +1,8 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+
+0.0600 2025-04-12 23:37:32
   - Add the ramp filter.
 
 0.0501 2025-04-11 22:17:26
