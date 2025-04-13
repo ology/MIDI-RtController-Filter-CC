@@ -1,6 +1,8 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Improve documentation.
+  - Fix the ramp bounds.
 
 0.0600 2025-04-12 23:37:32
   - Add the ramp filter.
