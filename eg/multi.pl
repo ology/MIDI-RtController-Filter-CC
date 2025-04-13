@@ -27,10 +27,10 @@ for my $name (@$inputs[1 .. $#$inputs]) {
 }
 
 my %filters = (
-    # 1 => { # mod-wheel
-        # type => 'breathe',
+    1 => { # mod-wheel
+        type => 'breathe',
         # time_step => 0.1,
-    # },
+    },
     # 13 => { # delay time
         # type => 'breathe',
         # time_step => 0.5,
