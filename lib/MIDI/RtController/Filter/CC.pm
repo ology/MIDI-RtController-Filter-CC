@@ -464,7 +464,7 @@ sub ramp ($self, $device, $dt, $event) {
 
                 $value += $self->range_step;
 
-                if ($value >= $self->range_top) {
+                if ($value > $self->range_top) {
                     $c->stop;
                     $self->running(0);
                 }
