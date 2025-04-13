@@ -81,7 +81,7 @@ for my $cc (keys %filters) {
         $filter->$param($params{$param});
     }
     my $method = "curry::$type";
-    $controllers{$port}->add_filter($type, ['all'], $filter->$method);
+    $controllers{$port}->add_filter($type, all => $filter->$method);
 }
 
 $control->run;
