@@ -16,10 +16,10 @@ my $control = MIDI::RtController->new(
 );
 
 my %filters = (
-    1 => { # mod-wheel
-        type => 'breathe',
-        time_step => 0.1,
-    },
+    # 1 => { # mod-wheel
+        # type => 'breathe',
+        # time_step => 0.1,
+    # },
     # 13 => { # delay time
         # type => 'breathe',
         # time_step => 0.5,
@@ -32,13 +32,12 @@ my %filters = (
         # range_bottom => 10,
         # range_top => 100,
     # },
-    # 22 => { # noise
-        # type => 'breathe',
+    22 => { # noise
+        type => 'ramp',
         # time_step => 0.2,
         # range_bottom => 0,
         # range_top => 80,
-        # pause => 1,
-    # },
+    },
     # 26 => { # filter e.g. release
         # type => 'breathe',
         # time_step => 0.5,
