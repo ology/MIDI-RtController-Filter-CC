@@ -35,7 +35,7 @@ my %filters = (
         type => 'ramp',
         time_step => 0.5,
         range_bottom => 0,
-        range_top => 30,
+        range_top => 40,
     },
     # 26 => { # filter e.g. release
         # port => 'joystick',
