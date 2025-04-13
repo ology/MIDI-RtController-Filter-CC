@@ -52,6 +52,7 @@ my $control = MIDI::RtController->new(
     verbose => 1,
 );
 
+# open the remaining inputs
 for my $name (@$inputs[1 .. $#$inputs]) {
     MIDI::RtController->new(
         input    => $name,
@@ -61,6 +62,7 @@ for my $name (@$inputs[1 .. $#$inputs]) {
     );
 }
 
+# add the filters
 for my $cc (keys %filters) {
     my %params = $filters{$cc}->%*;
     my $type = delete $params{type};
