@@ -442,8 +442,9 @@ sub stair_step ($self, $device, $dt, $event) {
 
   $control->add_filter('ramp', all => $filter->curry::ramp);
 
-This filter ramps-up or down a B<control> change message, over the MIDI
-B<channel> until the top (or bottom) of the range is reached.
+This filter ramps-up (or down) a B<control> change message, over the
+MIDI B<channel>, from B<range_bottom> until the B<range_top> is
+reached.
 
 =cut
 
