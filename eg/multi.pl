@@ -18,7 +18,7 @@ my $control = MIDI::RtController->new(
 my %filters = (
     1 => { # mod-wheel
         type => 'breathe',
-        time_step => 0.01,
+        time_step => 0.1,
     },
     # 13 => { # delay time
         # type => 'breathe',
