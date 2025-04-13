@@ -61,11 +61,11 @@ my %filters = (
     # },
 );
 
-for my $ctrl (keys %filters) {
-    my %params = $filters{$ctrl}->%*;
+for my $cc (keys %filters) {
+    my %params = $filters{$cc}->%*;
     my $type = delete $params{type};
     my $filter = MIDI::RtController::Filter::CC->new(rtc => $control);
-    $filter->control($ctrl);
+    $filter->control($cc);
     for my $param (keys %params) {
         $filter->$param($params{$param});
     }
