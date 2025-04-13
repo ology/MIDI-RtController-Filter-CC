@@ -1,6 +1,7 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Add the ramp filter.
 
 0.0501 2025-04-11 22:17:26
   - Parameterize the eg/multi.pl logic.
