@@ -5,7 +5,7 @@
 use curry;
 use MIDI::RtController ();
 use MIDI::RtController::Filter::CC ();
-use Object::Destroyer ();
+# use Object::Destroyer ();
 
 my $input_names = shift || 'keyboard,pad,joystick'; # midi controller devices
 my $output_name = shift || 'usb'; # midi output
@@ -88,6 +88,6 @@ $control->run;
 
 # ...and now trigger a MIDI message!
 
-END: {
-    Object::Destroyer->new($control, 'delete');
-}
+# END: {
+    # Object::Destroyer->new($control, 'delete');
+# }
