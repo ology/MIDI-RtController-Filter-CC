@@ -12,9 +12,9 @@ my $output_name = shift || 'usb'; # midi output
 
 my %filters = (
     1 => { # mod-wheel
-        port => 'joystick',
+        port => 'pad',
         type => 'breathe',
-        # time_step => 0.1,
+        time_step => 0.25,
     },
     # 13 => { # delay time
         # port => 'joystick',
@@ -33,9 +33,9 @@ my %filters = (
     22 => { # noise
         port => 'joystick',
         type => 'ramp',
-        # time_step => 0.2,
-        # range_bottom => 0,
-        # range_top => 80,
+        time_step => 0.5,
+        range_bottom => 0,
+        range_top => 30,
     },
     # 26 => { # filter e.g. release
         # port => 'joystick',
