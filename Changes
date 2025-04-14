@@ -1,6 +1,7 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Improve the eg/multi.pl program as usual...
 
 0.0800 2025-04-14 14:51:34
   - Modify the ramp filter into up/down.
