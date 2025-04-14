@@ -19,47 +19,51 @@ my @filters = (
         type => 'breathe',
         time_step => 0.25,
     },
-    # 13 => { # delay time
+    # { # delay time
         # port => 'joystick',
         # type => 'breathe',
+        # control => 13,
         # time_step => 0.5,
         # range_bottom => 10,
         # range_top => 100,
     # },
     { # noise down
-        control => 22,
         port => 'joystick',
-        trigger => 27,
         type => 'ramp_down',
+        control => 22,
+        trigger => 27,
         time_step => 0.5,
         range_bottom => 0,
         range_top => 40,
         initial_point => 40,
     },
     { # noise up
-        control => 22,
         port => 'joystick',
-        trigger => 26,
         type => 'ramp_up',
+        control => 22,
+        trigger => 26,
         time_step => 0.5,
         range_bottom => 0,
         range_top => 40,
     },
-    # 26 => { # filter e.g. release
+    # { # filter e.g. release
         # port => 'joystick',
         # type => 'breathe',
+        # control => 26,
         # time_step => 0.5,
         # range_bottom => 10,
         # range_top => 127,
     # },
-    # 77 => { # oscillator 1 waveform
+    # { # oscillator 1 waveform
         # port => 'joystick',
+        # control => 77,
         # trigger => 26,
         # value => 0, # 0: saw, 18: squ, 36: tri, 54: sin, 72 vox
     # },
-    # 14 => { # waveform modulate
+    # { # waveform modulate
         # port => 'joystick',
         # type => 'breathe',
+        # control => 14,
         # trigger => 27,
         # time_step => 0.25,
         # range_bottom => 10,
