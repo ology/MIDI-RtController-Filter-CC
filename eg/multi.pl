@@ -14,6 +14,7 @@ my %filters = (
     1 => { # mod-wheel
         port => 'pad',
         event => 'control_change', #[qw(note_on note_off)],
+        trigger => 25,
         type => 'breathe',
         time_step => 0.25,
     },
@@ -33,6 +34,7 @@ my %filters = (
     # },
     22 => { # noise
         port => 'joystick',
+        trigger => 25,
         type => 'ramp',
         time_step => 0.5,
         range_bottom => 0,
