@@ -23,6 +23,7 @@ my @filters = (
         # port => 'joystick',
         # type => 'breathe',
         # control => 13,
+        # trigger => 25,
         # time_step => 0.5,
         # range_bottom => 10,
         # range_top => 100,
