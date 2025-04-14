@@ -306,9 +306,17 @@ Return a new C<MIDI::RtController::Filter::CC> object.
 This filter sets a single B<control> change message, over the MIDI
 B<channel> once.
 
+If B<trigger> or B<value> is set, the filter checks those against the
+MIDI event C<note> or C<value>, respectively, to see if the filter
+should be applied.
+
 =cut
 
 sub single ($self, $device, $dt, $event) {
+    my ($ev, $chan, $note, $val) = $event->@*;
+    return 0 if $self->trigger && $note != $self->trigger;
+    return 0 if $self->value && $val != $self->value;
+
     my $cc = [ 'control_change', $self->channel, $self->control, $self->value ];
     $self->rtc->send_it($cc);
     return 0;
@@ -324,6 +332,10 @@ a B<control> change message, over the MIDI B<channel> every iteration.
 
 Passing C<all> means that any MIDI event will cause this filter to be
 triggered.
+
+If B<trigger> or B<value> is set, the filter checks those against the
+MIDI event C<note> or C<value>, respectively, to see if the filter
+should be applied.
 
 =cut
 
@@ -367,6 +379,10 @@ B<control> change message, over the MIDI B<channel>, every iteration.
 The B<initial_point> is used as the first CC# message, then the
 randomization takes over.
 
+If B<trigger> or B<value> is set, the filter checks those against the
+MIDI event C<note> or C<value>, respectively, to see if the filter
+should be applied.
+
 =cut
 
 sub scatter ($self, $device, $dt, $event) {
@@ -403,6 +419,10 @@ This filter sets the B<running> flag, uses the B<initial_point> for
 the fist CC# message, then adds B<step_up> or subtracts B<step_down>
 from that number successively, sending the value as a B<control>
 change message, over the MIDI B<channel>, every iteration.
+
+If B<trigger> or B<value> is set, the filter checks those against the
+MIDI event C<note> or C<value>, respectively, to see if the filter
+should be applied.
 
 =cut
 
@@ -459,6 +479,10 @@ sub stair_step ($self, $device, $dt, $event) {
 This filter ramps-up (or down) a B<control> change message, over the
 MIDI B<channel>, from B<range_bottom> until the B<range_top> is
 reached.
+
+If B<trigger> or B<value> is set, the filter checks those against the
+MIDI event C<note> or C<value>, respectively, to see if the filter
+should be applied.
 
 =cut
 
