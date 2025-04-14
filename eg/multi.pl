@@ -25,13 +25,6 @@ my %filters = (
         # range_bottom => 10,
         # range_top => 100,
     # },
-    # 14 => { # waveform modulate
-        # port => 'joystick',
-        # type => 'breathe',
-        # time_step => 0.25,
-        # range_bottom => 10,
-        # range_top => 100,
-    # },
     22 => { # noise
         port => 'joystick',
         trigger => 25,
@@ -47,10 +40,17 @@ my %filters = (
         # range_bottom => 10,
         # range_top => 127,
     # },
-    # 77 => {  # oscillator 1 waveform
+    # 77 => { # oscillator 1 waveform
         # port => 'joystick',
         # type => 'single',
         # value => 18, # 0: sawtooth, 18: square
+    # },
+    # 14 => { # waveform modulate
+        # port => 'joystick',
+        # type => 'breathe',
+        # time_step => 0.25,
+        # range_bottom => 10,
+        # range_top => 100,
     # },
 );
 
