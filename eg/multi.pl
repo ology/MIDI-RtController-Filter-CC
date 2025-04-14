@@ -90,6 +90,7 @@ $control->run;
 
 # ...and now trigger a MIDI message!
 
+# XXX maybe needed?
 END: {
     for my $name (@inputs) {
         Object::Destroyer->new($controllers{$name}, 'delete');
