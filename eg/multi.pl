@@ -13,6 +13,7 @@ my $output_name = shift || 'usb'; # midi output
 my %filters = (
     1 => { # mod-wheel
         port => 'pad',
+        event => 'control_change', #[qw(note_on note_off)],
         type => 'breathe',
         time_step => 0.25,
     },
@@ -75,13 +76,14 @@ for my $cc (keys %filters) {
     my %params = $filters{$cc}->%*;
     my $port = delete $params{port};
     my $type = delete $params{type};
+    my $event = delete $params{event} || 'all';
     my $filter = MIDI::RtController::Filter::CC->new(rtc => $controllers{$port});
     $filter->control($cc);
     for my $param (keys %params) {
         $filter->$param($params{$param});
     }
     my $method = "curry::$type";
-    $controllers{$port}->add_filter($type, all => $filter->$method);
+    $controllers{$port}->add_filter($type, $event => $filter->$method);
 }
 
 $control->run;
