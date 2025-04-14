@@ -100,6 +100,7 @@ $control->run;
 # XXX maybe needed?
 END: {
     for my $i (@inputs) {
-        Object::Destroyer->new($controllers{$i}, 'delete');
+        Object::Destroyer->new($controllers{$i}->{rtc}, 'delete');
+        Object::Destroyer->new($controllers{$i}->{filter}, 'delete');
     }
 }
