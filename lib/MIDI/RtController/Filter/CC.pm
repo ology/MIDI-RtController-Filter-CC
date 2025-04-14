@@ -12,7 +12,7 @@ use IO::Async::Timer::Periodic ();
 use Iterator::Breathe ();
 use Moo;
 use Types::MIDI qw(Channel Velocity);
-use Types::Common::Numeric qw(PositiveNum);
+use Types::Common::Numeric qw(NegativeNum PositiveNum);
 use Types::Standard qw(Bool Num Maybe);
 use namespace::clean;
 
@@ -219,7 +219,7 @@ Default: C<1>
 
 has range_step => (
     is      => 'rw',
-    isa     => PositiveNum,
+    isa     => NegativeNum | PositiveNum,
     default => 1,
 );
 
@@ -470,13 +470,12 @@ sub stair_step ($self, $device, $dt, $event) {
     return 0;
 }
 
-=head2 ramp
+=head2 ramp_up
 
-  $control->add_filter('ramp', all => $filter->curry::ramp);
+  $control->add_filter('ramp_up', all => $filter->curry::ramp_up);
 
-This filter ramps-up (or down) a B<control> change message, over the
-MIDI B<channel>, from B<range_bottom> until the B<range_top> is
-reached.
+This filter ramps-up a B<control> change message, over the MIDI
+B<channel>, from B<range_bottom> until the B<range_top> is reached.
 
 If B<trigger> or B<value> is set, the filter checks those against the
 MIDI event C<note> or C<value>, respectively, to see if the filter
@@ -484,7 +483,7 @@ should be applied.
 
 =cut
 
-sub ramp ($self, $device, $dt, $event) {
+sub ramp_up ($self, $device, $dt, $event) {
     return 0 if $self->running;
 
     my ($ev, $chan, $note, $val) = $event->@*;
@@ -507,6 +506,55 @@ sub ramp ($self, $device, $dt, $event) {
                 $value += $self->range_step;
 
                 if ($value > $self->range_top) {
+                    $c->stop;
+                    $self->running(0);
+                }
+                else {
+                    $c->start;
+                }
+            },
+        )->start
+    );
+
+    return 0;
+}
+
+=head2 ramp_down
+
+  $control->add_filter('ramp_down', all => $filter->curry::ramp_down);
+
+This filter ramps-down a B<control> change message, over the MIDI
+B<channel>, from B<range_top> until the B<range_bottom> is reached.
+
+If B<trigger> or B<value> is set, the filter checks those against the
+MIDI event C<note> or C<value>, respectively, to see if the filter
+should be applied.
+
+=cut
+
+sub ramp_down ($self, $device, $dt, $event) {
+    return 0 if $self->running;
+
+    my ($ev, $chan, $note, $val) = $event->@*;
+    return 0 if defined $self->trigger && $note != $self->trigger;
+    return 0 if defined $self->value && $val != $self->value;
+
+    $self->running(1);
+
+    my $value = $self->initial_point;
+
+    $self->rtc->loop->add(
+        IO::Async::Timer::Countdown->new(
+            delay     => $self->time_step,
+            on_expire => sub {
+                my $c = shift;
+
+                my $cc = [ 'control_change', $self->channel, $self->control, $value ];
+                $self->rtc->send_it($cc);
+
+                $value -= $self->range_step;
+
+                if ($value < $self->range_bottom) {
                     $c->stop;
                     $self->running(0);
                 }
