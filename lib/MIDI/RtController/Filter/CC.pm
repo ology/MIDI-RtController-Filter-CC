@@ -432,7 +432,7 @@ sub ramp ($self, $device, $dt, $event) {
     return 0 if $self->running;
     $self->running(1);
 
-    my $value = $self->range_bottom;
+    my $value = $self->initial_point;
 
     $self->rtc->loop->add(
         IO::Async::Timer::Countdown->new(
