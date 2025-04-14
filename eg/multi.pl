@@ -10,8 +10,9 @@ use Object::Destroyer ();
 my $input_names = shift || 'keyboard,pad,joystick'; # midi controller devices
 my $output_name = shift || 'usb'; # midi output
 
-my %filters = (
-    1 => { # mod-wheel
+my @filters = (
+    { # mod-wheel
+        control => 1,
         port => 'pad',
         event => 'control_change', #[qw(note_on note_off)],
         trigger => 25,
@@ -25,7 +26,8 @@ my %filters = (
         # range_bottom => 10,
         # range_top => 100,
     # },
-    22 => { # noise
+    { # noise
+        control => 22,
         port => 'joystick',
         trigger => 25,
         type => 'ramp',
@@ -40,19 +42,19 @@ my %filters = (
         # range_bottom => 10,
         # range_top => 127,
     # },
-    77 => { # oscillator 1 waveform
-        port => 'joystick',
-        trigger => 26,
-        value => 54, # 0: saw, 18: squ, 36: tri, 54: sin, 72 vox
-    },
-    14 => { # waveform modulate
-        port => 'joystick',
-        type => 'breathe',
-        trigger => 27,
-        time_step => 0.25,
-        range_bottom => 10,
-        range_top => 100,
-    },
+    # 77 => { # oscillator 1 waveform
+        # port => 'joystick',
+        # trigger => 26,
+        # value => 0, # 0: saw, 18: squ, 36: tri, 54: sin, 72 vox
+    # },
+    # 14 => { # waveform modulate
+        # port => 'joystick',
+        # type => 'breathe',
+        # trigger => 27,
+        # time_step => 0.25,
+        # range_bottom => 10,
+        # range_top => 100,
+    # },
 );
 
 my @inputs = split /,/, $input_names;
@@ -76,17 +78,15 @@ for my $i (@inputs[1 .. $#inputs]) {
 }
 
 # add the filters
-for my $cc (keys %filters) {
-    my %params = $filters{$cc}->%*;
-    my $port   = delete $params{port}  || $control->input;
-    my $type   = delete $params{type}  || 'single';
-    my $event  = delete $params{event} || 'all';
+for my $params (@filters) {
+    my $port   = delete $params->{port}  || $control->input;
+    my $type   = delete $params->{type}  || 'single';
+    my $event  = delete $params->{event} || 'all';
     my $filter = MIDI::RtController::Filter::CC->new(
         rtc => $controllers{$port}->{rtc}
     );
-    $filter->control($cc);
-    for my $param (keys %params) {
-        $filter->$param($params{$param});
+    for my $param (keys %$params) {
+        $filter->$param($params->{$param});
     }
     my $method = "curry::$type";
     $controllers{$port}->{rtc}->add_filter($type, $event => $filter->$method);
