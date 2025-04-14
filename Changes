@@ -1,6 +1,8 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+
+0.0701 2025-04-14 10:14:51
   - Fix logic.
 
 0.0700 2025-04-14 08:21:57
