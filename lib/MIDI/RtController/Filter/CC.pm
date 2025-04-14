@@ -120,9 +120,9 @@ has control => (
   $value = $filter->value;
   $filter->value($number);
 
-Return or set the control change value. This is a generic setting that
-can be used by filters to set or retrieve state. This often a whole
-number between C<0> and C<127>, but can take any number.
+Return or set the MIDI event value. This is a generic setting that can
+be used by filters to set or retrieve state. This often a whole number
+between C<0> and C<127>, but can take any number.
 
 Default: C<undef>
 
