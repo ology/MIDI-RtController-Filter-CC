@@ -74,9 +74,9 @@ for my $name (@inputs[1 .. $#inputs]) {
 # add the filters
 for my $cc (keys %filters) {
     my %params = $filters{$cc}->%*;
-    my $port = delete $params{port} || $control->input;
-    my $type = delete $params{type} || 'single';
-    my $event = delete $params{event} || 'all';
+    my $port   = delete $params{port}  || $control->input;
+    my $type   = delete $params{type}  || 'single';
+    my $event  = delete $params{event} || 'all';
     my $filter = MIDI::RtController::Filter::CC->new(rtc => $controllers{$port});
     $filter->control($cc);
     for my $param (keys %params) {
