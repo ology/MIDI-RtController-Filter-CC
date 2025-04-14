@@ -1,6 +1,7 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Enable trigger and value conditioning.
 
 0.0605 2025-04-13 23:45:54
   - Start the ramp filter at the initial-point.
