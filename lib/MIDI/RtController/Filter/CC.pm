@@ -306,16 +306,14 @@ Return a new C<MIDI::RtController::Filter::CC> object.
 This filter sets a single B<control> change message, over the MIDI
 B<channel> once.
 
-If B<trigger> or B<value> is set, the filter checks those against the
-MIDI event C<note> or C<value>, respectively, to see if the filter
-should be applied.
+If B<trigger> is set, the filter checks that against the MIDI event
+C<note> to see if the filter should be applied.
 
 =cut
 
 sub single ($self, $device, $dt, $event) {
     my ($ev, $chan, $note, $val) = $event->@*;
     return 0 if defined $self->trigger && $note != $self->trigger;
-    return 0 if defined $self->value && $val != $self->value;
 
     my $cc = [ 'control_change', $self->channel, $self->control, $self->value ];
     $self->rtc->send_it($cc);
