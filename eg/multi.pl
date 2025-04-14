@@ -55,12 +55,12 @@ my %filters = (
 my @inputs = split /,/, $input_names;
 
 # open the inputs
+my %controllers;
 my $control = MIDI::RtController->new(
     input   => $inputs[0],
     output  => $output_name,
     verbose => 1,
 );
-my %controllers;
 $controllers{ $inputs[0] } = $control;
 for my $name (@inputs[1 .. $#inputs]) {
     $controllers{$name} = MIDI::RtController->new(
