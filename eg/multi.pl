@@ -53,27 +53,28 @@ my %filters = (
 );
 
 my @inputs = split /,/, $input_names;
+my $name = $inputs[0];
 
 # open the inputs
 my %controllers;
 my $control = MIDI::RtController->new(
-    input   => $inputs[0],
+    input   => $name,
     output  => $output_name,
     verbose => 1,
 );
-$controllers{ $inputs[0] }->{rtc}    = $control;
-$controllers{ $inputs[0] }->{filter} = MIDI::RtController::Filter::CC->new(
+$controllers{$name}->{rtc}    = $control;
+$controllers{$name}->{filter} = MIDI::RtController::Filter::CC->new(
     rtc => $control
 );
-for my $name (@inputs[1 .. $#inputs]) {
-    $controllers{$name}->{rtc} = MIDI::RtController->new(
-        input    => $name,
+for my $i (@inputs[1 .. $#inputs]) {
+    $controllers{$i}->{rtc} = MIDI::RtController->new(
+        input    => $i,
         loop     => $control->loop,
         midi_out => $control->midi_out,
         verbose  => 1,
     );
-    $controllers{$name}->{filter} = MIDI::RtController::Filter::CC->new(
-        rtc => $controllers{$name}->{rtc}
+    $controllers{$i}->{filter} = MIDI::RtController::Filter::CC->new(
+        rtc => $controllers{$i}->{rtc}
     );
 }
 
@@ -98,7 +99,7 @@ $control->run;
 
 # XXX maybe needed?
 END: {
-    for my $name (@inputs) {
-        Object::Destroyer->new($controllers{$name}, 'delete');
+    for my $i (@inputs) {
+        Object::Destroyer->new($controllers{$i}, 'delete');
     }
 }
