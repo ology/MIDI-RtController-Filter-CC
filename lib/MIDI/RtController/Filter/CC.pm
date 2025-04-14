@@ -46,7 +46,7 @@ C<MIDI::RtController::Filter::CC> is a (growing) collection of
 control-change based L<MIDI::RtController> filters.
 
 Passing C<all> to the C<add_filter> method means that any MIDI event
-will cause this filter to be triggered.
+will trigger the filter.
 
 =head2 Making filters
 
