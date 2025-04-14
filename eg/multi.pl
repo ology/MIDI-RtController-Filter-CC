@@ -65,7 +65,7 @@ my $control = MIDI::RtController->new(
     verbose => 1,
 );
 $controllers{$name}->{rtc}    = $control;
-$controllers{$name}->{filter} = MIDI::RtController::Filter::CC->new(
+push $controllers{$name}->{filters}->@*, MIDI::RtController::Filter::CC->new(
     rtc => $control
 );
 for my $i (@inputs[1 .. $#inputs]) {
@@ -75,9 +75,6 @@ for my $i (@inputs[1 .. $#inputs]) {
         midi_out => $control->midi_out,
         verbose  => 1,
     );
-    $controllers{$i}->{filter} = MIDI::RtController::Filter::CC->new(
-        rtc => $controllers{$i}->{rtc}
-    );
 }
 
 # add the filters
@@ -86,7 +83,10 @@ for my $cc (keys %filters) {
     my $port   = delete $params{port}  || $control->input;
     my $type   = delete $params{type}  || 'single';
     my $event  = delete $params{event} || 'all';
-    my $filter = $controllers{$port}->{filter};
+    my $filter = MIDI::RtController::Filter::CC->new(
+        rtc => $controllers{$port}->{rtc}
+    );
+    push $controllers{$port}->{filters}->@*, $filter;
     $filter->control($cc);
     for my $param (keys %params) {
         $filter->$param($params{$param});
@@ -102,7 +102,9 @@ $control->run;
 # XXX maybe needed?
 END: {
     for my $i (@inputs) {
+        for my $j ($controllers{$i}->{filters}->@*) {
+            Object::Destroyer->new($j, 'delete');
+        }
         Object::Destroyer->new($controllers{$i}->{rtc}, 'delete');
-        Object::Destroyer->new($controllers{$i}->{filter}, 'delete');
     }
 }
