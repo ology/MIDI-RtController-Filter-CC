@@ -272,23 +272,6 @@ has running => (
     default => 0,
 );
 
-=head2 stop
-
-  $stop = $filter->stop;
-  $filter->stop($boolean);
-
-Stop running a filter.
-
-Default: C<0>
-
-=cut
-
-has stop => (
-    is      => 'rw',
-    isa     => Bool,
-    default => 0,
-);
-
 =head1 METHODS
 
 =head2 new
@@ -318,8 +301,7 @@ sub single ($self, $device, $dt, $event) {
 
 This filter sets the B<running> flag, then iterates between the
 B<range_bottom> and B<range_top> by B<range_step> increments, sending
-a B<control> change message, over the MIDI B<channel> every iteration,
-until B<stop> is seen.
+a B<control> change message, over the MIDI B<channel> every iteration.
 
 Passing C<all> means that any MIDI event will cause this filter to be
 triggered.
@@ -356,8 +338,7 @@ sub breathe ($self, $device, $dt, $event) {
 
 This filter sets the B<running> flag, chooses a random number between
 the B<range_bottom> and B<range_top>, and sends that as the value of a
-B<control> change message, over the MIDI B<channel>, every iteration,
-until B<stop> is seen.
+B<control> change message, over the MIDI B<channel>, every iteration.
 
 The B<initial_point> is used as the first CC# message, then the
 randomization takes over.
@@ -392,8 +373,7 @@ sub scatter ($self, $device, $dt, $event) {
 This filter sets the B<running> flag, uses the B<initial_point> for
 the fist CC# message, then adds B<step_up> or subtracts B<step_down>
 from that number successively, sending the value as a B<control>
-change message, over the MIDI B<channel>, every iteration, until
-B<stop> is seen.
+change message, over the MIDI B<channel>, every iteration.
 
 =cut
 
