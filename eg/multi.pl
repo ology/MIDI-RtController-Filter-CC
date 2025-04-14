@@ -40,18 +40,19 @@ my %filters = (
         # range_bottom => 10,
         # range_top => 127,
     # },
-    # 77 => { # oscillator 1 waveform
-        # port => 'joystick',
-        # type => 'single',
-        # value => 18, # 0: sawtooth, 18: square
-    # },
-    # 14 => { # waveform modulate
-        # port => 'joystick',
-        # type => 'breathe',
-        # time_step => 0.25,
-        # range_bottom => 10,
-        # range_top => 100,
-    # },
+    77 => { # oscillator 1 waveform
+        port => 'joystick',
+        trigger => 26,
+        value => 54, # 0: saw, 18: squ, 36: tri, 54: sin, 72 vox
+    },
+    14 => { # waveform modulate
+        port => 'joystick',
+        type => 'breathe',
+        trigger => 27,
+        time_step => 0.25,
+        range_bottom => 10,
+        range_top => 100,
+    },
 );
 
 my @inputs = split /,/, $input_names;
@@ -64,10 +65,7 @@ my $control = MIDI::RtController->new(
     output  => $output_name,
     verbose => 1,
 );
-$controllers{$name}->{rtc}    = $control;
-push $controllers{$name}->{filters}->@*, MIDI::RtController::Filter::CC->new(
-    rtc => $control
-);
+$controllers{$name}->{rtc} = $control;
 for my $i (@inputs[1 .. $#inputs]) {
     $controllers{$i}->{rtc} = MIDI::RtController->new(
         input    => $i,
@@ -86,7 +84,6 @@ for my $cc (keys %filters) {
     my $filter = MIDI::RtController::Filter::CC->new(
         rtc => $controllers{$port}->{rtc}
     );
-    push $controllers{$port}->{filters}->@*, $filter;
     $filter->control($cc);
     for my $param (keys %params) {
         $filter->$param($params{$param});
@@ -102,9 +99,9 @@ $control->run;
 # XXX maybe needed?
 END: {
     for my $i (@inputs) {
-        for my $j ($controllers{$i}->{filters}->@*) {
-            Object::Destroyer->new($j, 'delete');
-        }
+        # for my $j ($controllers{$i}->{filters}->@*) {
+            # Object::Destroyer->new($j, 'delete');
+        # }
         Object::Destroyer->new($controllers{$i}->{rtc}, 'delete');
     }
 }
