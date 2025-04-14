@@ -13,7 +13,7 @@ use Iterator::Breathe ();
 use Moo;
 use Types::MIDI qw(Channel Velocity);
 use Types::Common::Numeric qw(PositiveNum);
-use Types::Standard qw(Bool Num);
+use Types::Standard qw(Bool Num Maybe);
 use namespace::clean;
 
 =head1 SYNOPSIS
@@ -121,17 +121,36 @@ has control => (
   $filter->value($number);
 
 Return or set the control change value. This is a generic setting that
-can be used by filters to set state. This often a whole number between
-C<0> and C<127>, but can take any number.
+can be used by filters to set or retrieve state. This often a whole
+number between C<0> and C<127>, but can take any number.
 
-Default: C<0>
+Default: C<undef>
 
 =cut
 
 has value => (
     is      => 'rw',
-    isa     => Num,
-    default => 1,
+    isa     => Maybe[Num],
+    default => undef,
+);
+
+=head2 trigger
+
+  $trigger = $filter->trigger;
+  $filter->trigger($number);
+
+Return or set the trigger. This is a generic setting that
+can be used by filters to set or retrieve state. This often a whole
+number between C<0> and C<127>, but can take any number.
+
+Default: C<undef>
+
+=cut
+
+has trigger => (
+    is      => 'rw',
+    isa     => Maybe[Num],
+    default => undef,
 );
 
 =head2 initial_point
@@ -310,6 +329,11 @@ triggered.
 
 sub breathe ($self, $device, $dt, $event) {
     return 0 if $self->running;
+
+    my ($ev, $chan, $note, $val) = $event->@*;
+    return 0 if $self->trigger && $note != $self->trigger;
+    return 0 if $self->value && $val != $self->value;
+
     $self->running(1);
 
     my $it = Iterator::Breathe->new(
@@ -347,6 +371,11 @@ randomization takes over.
 
 sub scatter ($self, $device, $dt, $event) {
     return 0 if $self->running;
+
+    my ($ev, $chan, $note, $val) = $event->@*;
+    return 0 if $self->trigger && $note != $self->trigger;
+    return 0 if $self->value && $val != $self->value;
+
     $self->running(1);
 
     my $value  = $self->initial_point;
@@ -379,6 +408,11 @@ change message, over the MIDI B<channel>, every iteration.
 
 sub stair_step ($self, $device, $dt, $event) {
     return 0 if $self->running;
+
+    my ($ev, $chan, $note, $val) = $event->@*;
+    return 0 if $self->trigger && $note != $self->trigger;
+    return 0 if $self->value && $val != $self->value;
+
     $self->running(1);
 
     my $it = Iterator::Breathe->new(
@@ -430,6 +464,11 @@ reached.
 
 sub ramp ($self, $device, $dt, $event) {
     return 0 if $self->running;
+
+    my ($ev, $chan, $note, $val) = $event->@*;
+    return 0 if $self->trigger && $note != $self->trigger;
+    return 0 if $self->value && $val != $self->value;
+
     $self->running(1);
 
     my $value = $self->initial_point;
