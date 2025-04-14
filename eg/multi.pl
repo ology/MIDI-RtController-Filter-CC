@@ -99,9 +99,6 @@ $control->run;
 # XXX maybe needed?
 END: {
     for my $i (@inputs) {
-        # for my $j ($controllers{$i}->{filters}->@*) {
-            # Object::Destroyer->new($j, 'delete');
-        # }
         Object::Destroyer->new($controllers{$i}->{rtc}, 'delete');
     }
 }
