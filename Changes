@@ -1,6 +1,7 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Fix logic.
 
 0.0700 2025-04-14 08:21:57
   - Enable trigger and value conditioning.
