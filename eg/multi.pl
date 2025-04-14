@@ -61,13 +61,19 @@ my $control = MIDI::RtController->new(
     output  => $output_name,
     verbose => 1,
 );
-$controllers{ $inputs[0] } = $control;
+$controllers{ $inputs[0] }->{rtc}    = $control;
+$controllers{ $inputs[0] }->{filter} = MIDI::RtController::Filter::CC->new(
+    rtc => $control
+);
 for my $name (@inputs[1 .. $#inputs]) {
-    $controllers{$name} = MIDI::RtController->new(
+    $controllers{$name}->{rtc} = MIDI::RtController->new(
         input    => $name,
         loop     => $control->loop,
         midi_out => $control->midi_out,
         verbose  => 1,
+    );
+    $controllers{$name}->{filter} = MIDI::RtController::Filter::CC->new(
+        rtc => $controllers{$name}->{rtc}
     );
 }
 
@@ -77,13 +83,13 @@ for my $cc (keys %filters) {
     my $port   = delete $params{port}  || $control->input;
     my $type   = delete $params{type}  || 'single';
     my $event  = delete $params{event} || 'all';
-    my $filter = MIDI::RtController::Filter::CC->new(rtc => $controllers{$port});
+    my $filter = $controllers{$port}->{filter};
     $filter->control($cc);
     for my $param (keys %params) {
         $filter->$param($params{$param});
     }
     my $method = "curry::$type";
-    $controllers{$port}->add_filter($type, $event => $filter->$method);
+    $controllers{$port}->{rtc}->add_filter($type, $event => $filter->$method);
 }
 
 $control->run;
