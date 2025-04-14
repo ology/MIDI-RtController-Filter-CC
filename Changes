@@ -1,6 +1,7 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Improve the eg/multi.pl program.
 
 0.0701 2025-04-14 10:14:51
   - Fix logic.
