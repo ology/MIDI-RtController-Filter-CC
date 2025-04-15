@@ -1,6 +1,7 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Fix docs.
 
 0.0900 2025-04-15 01:11:11
   - Add the add_filters() utility function.
