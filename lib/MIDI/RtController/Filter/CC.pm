@@ -315,7 +315,8 @@ sub single ($self, $device, $dt, $event) {
     my ($ev, $chan, $note, $val) = $event->@*;
     return 0 if defined $self->trigger && $note != $self->trigger;
 
-    my $cc = [ 'control_change', $self->channel, $self->control, $self->value ];
+    my $value = $self->value || $val;
+    my $cc = [ 'control_change', $self->channel, $self->control, $value ];
     $self->rtc->send_it($cc);
     return 0;
 }
