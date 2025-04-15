@@ -1,6 +1,8 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+
+0.0802 2025-04-14 21:35:39
   - Default to controller value in the single filter.
   - Add the eg/continuous.pl program.
   - The single filter returns true, and stops further filtering.
