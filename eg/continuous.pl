@@ -9,17 +9,11 @@ my $in  = shift || '49 midi'; # keyboard controller
 my $out = shift || 'usb'; # midi output
 
 my @filters = (
-    { # mod-wheel
-        port => '49 midi',
-        event => 'control_change',
-        control => 1,
-        trigger => 67,
-    },
     { # cutoff
         port => '49 midi',
         event => 'control_change',
         control => 74,
-        trigger => 68,
+        trigger => 35,
     },
     { # resonance
         port => '49 midi',
