@@ -7,6 +7,7 @@ our $VERSION = '0.0802';
 use v5.36;
 
 use strictures 2;
+use curry;
 use IO::Async::Timer::Countdown ();
 use IO::Async::Timer::Periodic ();
 use Iterator::Breathe ();
@@ -298,6 +299,51 @@ has running => (
   $filter = MIDI::RtController::Filter::CC->new(%arguments);
 
 Return a new C<MIDI::RtController::Filter::CC> object.
+
+=head2 add_filters
+
+  $control->add_filters($filters, $controllers);
+
+Add B<filters> to controller instances. The B<filters> are given as an
+array reference of hash references, like:
+
+  [
+    { # mod-wheel
+      port => 'keyboard',        # what is controlling it
+      type => 'breathe',         # the type of filter
+      event => 'control_change', # or [qw(note_on note_off)] etc
+      control => 1,              # what is being controlled
+      trigger => 25,             # what triggers the controlling
+      time_step => 0.25,          # a parameter
+    },
+    ...
+  ]
+
+The C<port>, C<type>, and C<event> keys are metadata. All other keys
+are assumed to be object attributes to set.
+
+The B<controllers> come from L<MIDI::RtController/open_controllers>.
+
+=cut
+
+sub add_filters ($filters, $controllers) {
+    for my $params (@$filters) {
+        my $port = delete $params->{port};
+        next unless $port; # skip unnamed entries
+        my $type = delete $params->{type} || 'single';
+        my $event = delete $params->{event} || 'all';
+        my $filter = __PACKAGE__->new(
+            rtc => $controllers->{$port}
+        );
+        for my $param (keys %$params) {
+            $filter->$param($params->{$param});
+        }
+        my $method = "curry::$type";
+        $controllers->{$port}->add_filter($type, $event => $filter->$method);
+    }
+}
+
+=head1 FILTERS
 
 =head2 single
 
