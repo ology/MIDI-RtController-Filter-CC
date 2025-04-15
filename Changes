@@ -2,7 +2,6 @@ Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
   - Default to controller value in the single filter.
-  - Improve the eg/multi.pl program.
 
 0.0801 2025-04-14 15:24:59
   - Improve the eg/multi.pl program as usual...
