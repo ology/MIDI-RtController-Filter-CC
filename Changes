@@ -1,6 +1,8 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Add the add_filters() utility function.
+  - Improve documentation.
 
 0.0802 2025-04-14 21:35:39
   - Default to controller value in the single filter.
