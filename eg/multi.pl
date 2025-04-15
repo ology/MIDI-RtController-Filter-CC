@@ -74,44 +74,17 @@ my @inputs = split /,/, $input_names;
 my $name = $inputs[0];
 
 # open the inputs
-my %controllers;
-my $control = MIDI::RtController->new(
-    input   => $name,
-    output  => $output_name,
-    verbose => 1,
-);
-$controllers{$name}->{rtc} = $control;
-for my $i (@inputs[1 .. $#inputs]) {
-    $controllers{$i}->{rtc} = MIDI::RtController->new(
-        input    => $i,
-        loop     => $control->loop,
-        midi_out => $control->midi_out,
-        verbose  => 1,
-    );
-}
+my $controllers = MIDI::RtController::open_controllers($input_names, $output_name);
 
-# add the filters
-for my $params (@filters) {
-    my $port   = delete $params->{port}  || $control->input;
-    my $type   = delete $params->{type}  || 'single';
-    my $event  = delete $params->{event} || 'all';
-    my $filter = MIDI::RtController::Filter::CC->new(
-        rtc => $controllers{$port}->{rtc}
-    );
-    for my $param (keys %$params) {
-        $filter->$param($params->{$param});
-    }
-    my $method = "curry::$type";
-    $controllers{$port}->{rtc}->add_filter($type, $event => $filter->$method);
-}
+MIDI::RtController::Filter::CC::add_filters(\@filters, $controllers);
 
-$control->run;
+$controllers->{$name}->run;
 
 # ...and now trigger a MIDI message!
 
 # XXX maybe needed?
 END: {
-    for my $i (@inputs) {
-        Object::Destroyer->new($controllers{$i}->{rtc}, 'delete');
+    for my $i (@$controllers) {
+        Object::Destroyer->new($i, 'delete');
     }
 }
