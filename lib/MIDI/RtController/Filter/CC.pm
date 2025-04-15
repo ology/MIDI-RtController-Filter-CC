@@ -300,12 +300,13 @@ has running => (
 
 Return a new C<MIDI::RtController::Filter::CC> object.
 
+=head1 UTILITIES
+
 =head2 add_filters
 
-  $control->add_filters($filters, $controllers);
+  MIDI::RtController::Filter::CC::add_filters(\@filters, $controllers);
 
-Add B<filters> to controller instances. The B<filters> are given as an
-array reference of hash references, like:
+Add an array reference of B<filters> to controller instances. For example:
 
   [
     { # mod-wheel
@@ -319,10 +320,12 @@ array reference of hash references, like:
     ...
   ]
 
-The C<port>, C<type>, and C<event> keys are metadata. All other keys
-are assumed to be object attributes to set.
+In this list, the C<port>, C<type>, and C<event> keys are metadata.
+All other keys are assumed to be object attributes to set.
 
-The B<controllers> come from L<MIDI::RtController/open_controllers>.
+The B<controllers> come from L<MIDI::RtController/open_controllers>
+and is a hash reference of C<MIDI::RtController> instances keyed by a
+MIDI input device port name.
 
 =cut
 
