@@ -306,7 +306,8 @@ Return a new C<MIDI::RtController::Filter::CC> object.
 
   MIDI::RtController::Filter::CC::add_filters(\@filters, $controllers);
 
-Add an array reference of B<filters> to controller instances. For example:
+Add an array reference of B<filters> to controller instances. For
+example:
 
   [
     { # mod-wheel
@@ -320,8 +321,9 @@ Add an array reference of B<filters> to controller instances. For example:
     ...
   ]
 
-In this list, the C<port>, C<type>, and C<event> keys are metadata.
-All other keys are assumed to be object attributes to set.
+In this list, C<port> and C<type> are required, and C<event> is
+optional. These keys are metadata, and all others are assumed to be
+object attributes to set.
 
 The B<controllers> come from L<MIDI::RtController/open_controllers>
 and is a hash reference of C<MIDI::RtController> instances keyed by a
