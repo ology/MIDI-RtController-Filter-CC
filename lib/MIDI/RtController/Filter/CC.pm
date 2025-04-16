@@ -334,7 +334,8 @@ MIDI input device port name.
 sub add_filters ($filters, $controllers) {
     for my $params (@$filters) {
         my $port = delete $params->{port};
-        next unless $port; # skip unnamed entries
+        # skip unnamed and unknown entries
+        next unless $port || exists $controllers->{$port};
         my $type = delete $params->{type} || 'single';
         my $event = delete $params->{event} || 'all';
         my $filter = __PACKAGE__->new(
