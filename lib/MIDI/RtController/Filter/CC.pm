@@ -131,7 +131,7 @@ Default: C<undef>
 
 has value => (
     is      => 'rw',
-    isa     => Maybe[Num],
+    isa     => Velocity, # no CC# in Types::MIDI yet
     default => undef,
 );
 
@@ -150,7 +150,7 @@ Default: C<undef>
 
 has trigger => (
     is      => 'rw',
-    isa     => Maybe[Num],
+    isa     => Velocity, # no CC# in Types::MIDI yet
     default => undef,
 );
 
@@ -185,7 +185,7 @@ Default: C<0>
 
 has range_bottom => (
     is      => 'rw',
-    isa     => Num,
+    isa     => Velocity, # no CC# msg value in Types::MIDI yet
     default => 0,
 );
 
@@ -202,7 +202,7 @@ Default: C<127>
 
 has range_top => (
     is      => 'rw',
-    isa     => Num,
+    isa     => Velocity, # no CC# msg value in Types::MIDI yet
     default => 127,
 );
 
