@@ -314,9 +314,9 @@ example:
       port => 'keyboard',        # what is controlling it
       type => 'breathe',         # the type of filter
       event => 'control_change', # or [qw(note_on note_off)] etc
-      control => 1,              # what is being controlled
-      trigger => 25,             # what triggers the controlling
-      time_step => 0.25,          # a parameter
+      control => 1,              # what CC# is being controlled
+      trigger => 25,             # what CC# triggers the controlling
+      time_step => 0.25,         # a parameter
     },
     ...
   ]
