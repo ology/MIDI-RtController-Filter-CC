@@ -1,6 +1,7 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Make add_filters() skip unknown filters.
 
 0.0904 2025-04-16 10:46:18
   - Fix the eg/continuous.pl program.
