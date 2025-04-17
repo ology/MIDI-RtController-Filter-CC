@@ -341,6 +341,7 @@ sub add_filters ($filters, $controllers) {
         my $filter = __PACKAGE__->new(
             rtc => $controllers->{$port}
         );
+        # assume all remaining key/values are module attributes
         for my $param (keys %$params) {
             $filter->$param($params->{$param});
         }
