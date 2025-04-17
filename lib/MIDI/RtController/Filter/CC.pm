@@ -332,10 +332,12 @@ MIDI input device port name.
 =cut
 
 sub add_filters ($filters, $controllers) {
+use Data::Dumper::Compact qw(ddc);
+warn __PACKAGE__,' L',__LINE__,' ',ddc(keys%$controllers, {max_width=>128});
     for my $params (@$filters) {
         my $port = delete $params->{port};
         # skip unnamed and unknown entries
-        next unless $port || exists $controllers->{$port};
+        next if !$port || !exists $controllers->{$port};
         my $type = delete $params->{type} || 'single';
         my $event = delete $params->{event} || 'all';
         my $filter = __PACKAGE__->new(
