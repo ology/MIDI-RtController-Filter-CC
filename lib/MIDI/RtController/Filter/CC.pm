@@ -326,8 +326,8 @@ optional. These keys are metadata, and all others are assumed to be
 object attributes to set.
 
 The B<controllers> come from L<MIDI::RtController/open_controllers>
-and is a hash reference of C<MIDI::RtController> instances keyed by a
-MIDI input device port name.
+and is a hash reference of C<MIDI::RtController> instances keyed by
+MIDI input device port names.
 
 =cut
 
