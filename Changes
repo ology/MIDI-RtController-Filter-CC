@@ -1,6 +1,8 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+
+0.0906 2025-04-18 15:07:11
   - Make add_filters() skip unknown filters.
   - Actually use the Maybe type!
 
