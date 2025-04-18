@@ -7,6 +7,7 @@ use Object::Destroyer ();
 
 my $input_names = shift || 'keyboard,pad,joystick'; # midi controller devices
 my $output_name = shift || 'usb'; # midi output
+my $populate    = shift || 0; # make the 1st input the filter port on all
 
 my @filters = (
     { # mod-wheel
@@ -72,6 +73,10 @@ my @filters = (
 
 my @inputs = split /,/, $input_names;
 my $name = $inputs[0];
+
+if ($populate) {
+    $_{port} = $name for @filters;
+}
 
 # open the inputs
 my $controllers = MIDI::RtController::open_controllers(\@inputs, $output_name, 1);
