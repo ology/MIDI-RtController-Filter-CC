@@ -11,18 +11,18 @@ my $populate    = shift || 0; # make the 1st input the filter port on all
 
 my @filters = (
     { # mod-wheel
-        control => 1,
         port => 'pad',
         event => 'control_change', #[qw(note_on note_off)],
         trigger => 25,
+        control => 1,
         type => 'breathe',
         time_step => 0.25,
     },
     # { # delay time
         # port => 'joystick',
         # type => 'breathe',
-        # control => 13,
         # trigger => 25,
+        # control => 13,
         # time_step => 0.5,
         # range_bottom => 10,
         # range_top => 100,
@@ -30,8 +30,8 @@ my @filters = (
     { # noise down
         port => 'joystick',
         type => 'ramp_down',
-        control => 22,
         trigger => 27,
+        control => 22,
         time_step => 0.5,
         range_bottom => 0,
         range_top => 40,
@@ -40,8 +40,8 @@ my @filters = (
     { # noise up
         port => 'joystick',
         type => 'ramp_up',
-        control => 22,
         trigger => 26,
+        control => 22,
         time_step => 0.5,
         range_bottom => 0,
         range_top => 40,
@@ -49,22 +49,22 @@ my @filters = (
     # { # filter e.g. release
         # port => 'joystick',
         # type => 'breathe',
-        # control => 26,
         # time_step => 0.5,
+        # control => 26,
         # range_bottom => 10,
         # range_top => 127,
     # },
     # { # oscillator 1 waveform
         # port => 'joystick',
-        # control => 77,
         # trigger => 26,
+        # control => 77,
         # value => 0, # 0: saw, 18: squ, 36: tri, 54: sin, 72 vox
     # },
     # { # waveform modulate
         # port => 'joystick',
         # type => 'breathe',
-        # control => 14,
         # trigger => 27,
+        # control => 14,
         # time_step => 0.25,
         # range_bottom => 10,
         # range_top => 100,
