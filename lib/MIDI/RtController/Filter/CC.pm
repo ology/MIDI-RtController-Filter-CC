@@ -131,7 +131,7 @@ Default: C<undef>
 
 has value => (
     is      => 'rw',
-    isa     => Velocity, # no CC# in Types::MIDI yet
+    isa     => Maybe[Velocity], # no CC# in Types::MIDI yet
     default => undef,
 );
 
@@ -150,7 +150,7 @@ Default: C<undef>
 
 has trigger => (
     is      => 'rw',
-    isa     => Velocity, # no CC# in Types::MIDI yet
+    isa     => Maybe[Velocity], # no CC# in Types::MIDI yet
     default => undef,
 );
 
