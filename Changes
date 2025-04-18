@@ -2,7 +2,7 @@ Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
   - Make add_filters() skip unknown filters.
-  - Actually use the Maybe type. Thanks.
+  - Actually use the Maybe type!
 
 0.0904 2025-04-16 10:46:18
   - Fix the eg/continuous.pl program.
