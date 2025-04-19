@@ -1,6 +1,8 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+
+0.0907 2025-04-19 00:23:42
   - Remove cruft, enhance, and fix the eg/* programs.
   - Improve documentation.
 
