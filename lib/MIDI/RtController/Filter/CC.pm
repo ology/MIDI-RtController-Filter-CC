@@ -319,7 +319,7 @@ example:
       event => 'control_change', # or [qw(note_on note_off)] etc
       control => 1,              # what CC# is being controlled
       trigger => 25,             # what CC# triggers the controlling
-      time_step => 0.25,         # a parameter
+      time_step => 0.25,         # a module attribute parameter
     },
     ...
   ]
