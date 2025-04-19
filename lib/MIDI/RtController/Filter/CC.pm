@@ -633,6 +633,12 @@ __END__
 
 The F<eg/*.pl> program(s) in this distribution
 
+L<MIDI::RtController::Filter::Tonal>
+
+L<MIDI::RtController::Filter::Math>
+
+L<MIDI::RtController::Filter::Drums>
+
 L<IO::Async::Timer::Periodic>
 
 L<Iterator::Breathe>
