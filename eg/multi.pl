@@ -74,8 +74,10 @@ my @filters = (
 my @inputs = split /,/, $input_names;
 my $name = $inputs[0];
 
-for my $filter (@filters) {
-    $filter->{port} = $name;
+if ($populate) {
+    for my $filter (@filters) {
+        $filter->{port} = $name;
+    }
 }
 
 # open the inputs
