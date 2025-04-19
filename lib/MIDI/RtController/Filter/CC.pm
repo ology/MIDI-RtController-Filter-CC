@@ -49,6 +49,9 @@ control-change based L<MIDI::RtController> filters.
 Passing C<all> to the C<add_filter> method means that any MIDI event
 will trigger the filter.
 
+In order to stop a running filter, send a C<CTRL-C> to the console...
+Halting midstream, with logic, is not yet happening.
+
 =head2 Making filters
 
 All filter methods must accept the object, a MIDI device name, a
