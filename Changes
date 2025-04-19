@@ -1,6 +1,7 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Enhance the eg/multi.pl program.
 
 0.0906 2025-04-18 15:07:11
   - Make add_filters() skip unknown filters.
