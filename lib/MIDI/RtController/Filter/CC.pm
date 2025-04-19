@@ -314,7 +314,7 @@ example:
 
   [
     { # mod-wheel
-      port => 'keyboard',        # what is controlling
+      port => 'keyboard',        # what device is controlling
       type => 'breathe',         # the type of filter
       event => 'control_change', # or [qw(note_on note_off)] etc
       control => 1,              # what CC# is being controlled
