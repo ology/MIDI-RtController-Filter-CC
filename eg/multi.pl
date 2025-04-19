@@ -8,7 +8,35 @@ my $input_names = shift || 'keyboard,pad,joystick'; # midi controller devices
 my $output_name = shift || 'usb'; # midi output
 my $populate    = shift || 0; # use the 1st input for the filter port
 
-my @filters = (
+my @inputs = split /,/, $input_names;
+my $name = $inputs[0];
+
+my @filters = get_filters();
+
+if ($populate) {
+    for my $filter (@filters) {
+        $filter->{port} = $name;
+    }
+}
+
+# open the inputs
+my $controllers = MIDI::RtController::open_controllers(\@inputs, $output_name, 1);
+
+MIDI::RtController::Filter::CC::add_filters(\@filters, $controllers);
+
+$controllers->{$name}->run;
+
+# ...and now trigger a MIDI message!
+
+# XXX maybe needed?
+END: {
+    for my $i (@$controllers) {
+        Object::Destroyer->new($i, 'delete');
+    }
+}
+
+sub get_filters {
+    return (
     { # mod-wheel
         control => 1,
         port => 'pad',
@@ -69,28 +97,4 @@ my @filters = (
         # range_top => 100,
     # },
 );
-
-my @inputs = split /,/, $input_names;
-my $name = $inputs[0];
-
-if ($populate) {
-    for my $filter (@filters) {
-        $filter->{port} = $name;
-    }
-}
-
-# open the inputs
-my $controllers = MIDI::RtController::open_controllers(\@inputs, $output_name, 1);
-
-MIDI::RtController::Filter::CC::add_filters(\@filters, $controllers);
-
-$controllers->{$name}->run;
-
-# ...and now trigger a MIDI message!
-
-# XXX maybe needed?
-END: {
-    for my $i (@$controllers) {
-        Object::Destroyer->new($i, 'delete');
-    }
 }
