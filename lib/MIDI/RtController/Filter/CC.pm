@@ -371,7 +371,8 @@ sub single ($self, $device, $dt, $event) {
     my $value = $self->value || $val;
     my $cc = [ 'control_change', $self->channel, $self->control, $value ];
     $self->rtc->send_it($cc);
-    return 1;
+
+    return 0;
 }
 
 =head2 breathe
