@@ -357,7 +357,7 @@ sub add_filters ($filters, $controllers) {
   $control->add_filter('single', all => $filter->curry::single);
 
 This filter sets a single B<control> change message, over the MIDI
-B<channel> once.
+B<channel>.
 
 If B<trigger> is set, the filter checks that against the MIDI event
 C<note> to see if the filter should be applied.
