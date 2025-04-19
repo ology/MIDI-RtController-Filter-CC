@@ -9,13 +9,13 @@ my $output_name = shift || 'usb'; # midi output
 my $populate    = shift || 0; # use the 1st input for the filter port
 
 my @inputs = split /,/, $input_names;
-my $name = $inputs[0];
+my $first = $inputs[0];
 
 my @filters = get_filters();
 
 if ($populate) {
     for my $filter (@filters) {
-        $filter->{port} = $name;
+        $filter->{port} = $first;
     }
 }
 
@@ -24,7 +24,7 @@ my $controllers = MIDI::RtController::open_controllers(\@inputs, $output_name, 1
 
 MIDI::RtController::Filter::CC::add_filters(\@filters, $controllers);
 
-$controllers->{$name}->run;
+$controllers->{$first}->run;
 
 # ...and now trigger a MIDI message!
 
