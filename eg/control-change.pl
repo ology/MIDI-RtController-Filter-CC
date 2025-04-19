@@ -1,8 +1,5 @@
 #!/usr/bin/env perl
 
-# PERL_FUTURE_DEBUG=1 perl eg/control-change.pl
-
-use curry;
 use MIDI::RtController ();
 use MIDI::RtController::Filter::CC ();
 
