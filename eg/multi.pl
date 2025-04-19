@@ -30,8 +30,8 @@ $controllers->{$first}->run;
 
 # XXX maybe needed?
 END: {
-    for my $i (@$controllers) {
-        Object::Destroyer->new($i, 'delete');
+    for my $i (keys %$controllers) {
+        Object::Destroyer->new($controllers->{$i}, 'delete');
     }
 }
 
