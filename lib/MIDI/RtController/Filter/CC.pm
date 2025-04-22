@@ -409,6 +409,8 @@ If B<trigger> or B<value> is set, the filter checks those against the
 MIDI event C<note> or C<value>, respectively, to see if the filter
 should be applied.
 
+If the B<halt> attribute is set to true, the running filter will stop.
+
 =cut
 
 sub breathe ($self, $device, $dt, $event) {
@@ -463,6 +465,8 @@ If B<trigger> or B<value> is set, the filter checks those against the
 MIDI event C<note> or C<value>, respectively, to see if the filter
 should be applied.
 
+If the B<halt> attribute is set to true, the running filter will stop.
+
 =cut
 
 sub scatter ($self, $device, $dt, $event) {
@@ -511,6 +515,8 @@ change message, over the MIDI B<channel>, every iteration.
 If B<trigger> or B<value> is set, the filter checks those against the
 MIDI event C<note> or C<value>, respectively, to see if the filter
 should be applied.
+
+If the B<halt> attribute is set to true, the running filter will stop.
 
 =cut
 
@@ -579,6 +585,8 @@ If B<trigger> or B<value> is set, the filter checks those against the
 MIDI event C<note> or C<value>, respectively, to see if the filter
 should be applied.
 
+If the B<halt> attribute is set to true, the running filter will stop.
+
 =cut
 
 sub ramp_up ($self, $device, $dt, $event) {
@@ -633,6 +641,8 @@ B<channel>, from B<range_top> until the B<range_bottom> is reached.
 If B<trigger> or B<value> is set, the filter checks those against the
 MIDI event C<note> or C<value>, respectively, to see if the filter
 should be applied.
+
+If the B<halt> attribute is set to true, the running filter will stop.
 
 =cut
 
