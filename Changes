@@ -1,6 +1,7 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Correct documentation.
 
 0.0910 2025-04-22 12:06:10
   - Turn off halt when halting.
