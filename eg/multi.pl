@@ -9,7 +9,7 @@ my $output_name = shift || 'usb'; # midi output
 my $populate    = shift || 0; # use the 1st input for the filter port
 
 my @inputs = split /,/, $input_names;
-my $first = $inputs[0];
+my $first  = $inputs[0];
 
 my @filters = get_filters();
 
