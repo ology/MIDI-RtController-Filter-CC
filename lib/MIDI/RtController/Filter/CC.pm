@@ -2,7 +2,7 @@ package MIDI::RtController::Filter::CC;
 
 # ABSTRACT: Control-change based RtController filters
 
-our $VERSION = '0.0908';
+our $VERSION = '0.0909';
 
 use v5.36;
 
@@ -295,6 +295,23 @@ has running => (
     default => 0,
 );
 
+=head2 halt
+
+  $halt = $filter->halt;
+  $filter->halt($boolean);
+
+Return or set B<halt>. This can be used to terminate B<running> filters.
+
+Default: C<0>
+
+=cut
+
+has halt => (
+    is      => 'rw',
+    isa     => Bool,
+    default => 0,
+);
+
 =head1 METHODS
 
 =head2 new
@@ -414,9 +431,16 @@ sub breathe ($self, $device, $dt, $event) {
         IO::Async::Timer::Periodic->new(
             interval  => $self->time_step,
             on_tick => sub {
-                $it->iterate;
-                my $cc = [ 'control_change', $self->channel, $self->control, $it->i ];
-                $self->rtc->send_it($cc);
+                my ($c) = @_;
+                if ($self->halt) {
+                    $c->stop;
+                    $self->running(0);
+                }
+                else {
+                    $it->iterate;
+                    my $cc = [ 'control_change', $self->channel, $self->control, $it->i ];
+                    $self->rtc->send_it($cc);
+                }
             },
         )->start
     );
@@ -457,9 +481,16 @@ sub scatter ($self, $device, $dt, $event) {
         IO::Async::Timer::Periodic->new(
             interval  => $self->time_step,
             on_tick => sub {
-                my $cc = [ 'control_change', $self->channel, $self->control, $value ];
-                $self->rtc->send_it($cc);
-                $value = $values[ int rand @values ];
+                my ($c) = @_;
+                if ($self->halt) {
+                    $c->stop;
+                    $self->running(0);
+                }
+                else {
+                    my $cc = [ 'control_change', $self->channel, $self->control, $value ];
+                    $self->rtc->send_it($cc);
+                    $value = $values[ int rand @values ];
+                }
             },
         )->start
     );
@@ -503,25 +534,32 @@ sub stair_step ($self, $device, $dt, $event) {
         IO::Async::Timer::Periodic->new(
             interval  => $self->time_step,
             on_tick => sub {
-                my $cc = [ 'control_change', $self->channel, $self->control, $value ];
-                $self->rtc->send_it($cc);
-
-                # compute the stair-stepping
-                if ($direction) {
-                    $it->step($self->step_up);
+                my ($c) = @_;
+                if ($self->halt) {
+                    $c->stop;
+                    $self->running(0);
                 }
                 else {
-                    $it->step(- $self->step_down);
+                    my $cc = [ 'control_change', $self->channel, $self->control, $value ];
+                    $self->rtc->send_it($cc);
+
+                    # compute the stair-stepping
+                    if ($direction) {
+                        $it->step($self->step_up);
+                    }
+                    else {
+                        $it->step(- $self->step_down);
+                    }
+
+                    # toggle the stair-step direction
+                    $direction = !$direction;
+
+                    # iterate the breathing
+                    $it->iterate;
+                    $value = $it->i;
+                    $value = $self->range_top    if $value >= $self->range_top;
+                    $value = $self->range_bottom if $value <= $self->range_bottom;
                 }
-
-                # toggle the stair-step direction
-                $direction = !$direction;
-
-                # iterate the breathing
-                $it->iterate;
-                $value = $it->i;
-                $value = $self->range_top    if $value >= $self->range_top;
-                $value = $self->range_bottom if $value <= $self->range_bottom;
             },
         )->start
     );
@@ -556,19 +594,24 @@ sub ramp_up ($self, $device, $dt, $event) {
         IO::Async::Timer::Countdown->new(
             delay     => $self->time_step,
             on_expire => sub {
-                my $c = shift;
-
-                my $cc = [ 'control_change', $self->channel, $self->control, $value ];
-                $self->rtc->send_it($cc);
-
-                $value += $self->range_step;
-
-                if ($value > $self->range_top) {
+                my ($c) = @_;
+                if ($self->halt) {
                     $c->stop;
                     $self->running(0);
                 }
                 else {
-                    $c->start;
+                    my $cc = [ 'control_change', $self->channel, $self->control, $value ];
+                    $self->rtc->send_it($cc);
+
+                    $value += $self->range_step;
+
+                    if ($value > $self->range_top) {
+                        $c->stop;
+                        $self->running(0);
+                    }
+                    else {
+                        $c->start;
+                    }
                 }
             },
         )->start
@@ -605,19 +648,24 @@ sub ramp_down ($self, $device, $dt, $event) {
         IO::Async::Timer::Countdown->new(
             delay     => $self->time_step,
             on_expire => sub {
-                my $c = shift;
-
-                my $cc = [ 'control_change', $self->channel, $self->control, $value ];
-                $self->rtc->send_it($cc);
-
-                $value -= $self->range_step;
-
-                if ($value < $self->range_bottom) {
+                my ($c) = @_;
+                if ($self->halt) {
                     $c->stop;
                     $self->running(0);
                 }
                 else {
-                    $c->start;
+                    my $cc = [ 'control_change', $self->channel, $self->control, $value ];
+                    $self->rtc->send_it($cc);
+
+                    $value -= $self->range_step;
+
+                    if ($value < $self->range_bottom) {
+                        $c->stop;
+                        $self->running(0);
+                    }
+                    else {
+                        $c->start;
+                    }
                 }
             },
         )->start
