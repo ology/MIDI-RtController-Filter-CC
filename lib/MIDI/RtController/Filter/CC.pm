@@ -435,6 +435,7 @@ sub breathe ($self, $device, $dt, $event) {
                 if ($self->halt) {
                     $c->stop;
                     $self->running(0);
+                    $self->halt(0);
                 }
                 else {
                     $it->iterate;
@@ -485,6 +486,7 @@ sub scatter ($self, $device, $dt, $event) {
                 if ($self->halt) {
                     $c->stop;
                     $self->running(0);
+                    $self->halt(0);
                 }
                 else {
                     my $cc = [ 'control_change', $self->channel, $self->control, $value ];
@@ -538,6 +540,7 @@ sub stair_step ($self, $device, $dt, $event) {
                 if ($self->halt) {
                     $c->stop;
                     $self->running(0);
+                    $self->halt(0);
                 }
                 else {
                     my $cc = [ 'control_change', $self->channel, $self->control, $value ];
@@ -598,6 +601,7 @@ sub ramp_up ($self, $device, $dt, $event) {
                 if ($self->halt) {
                     $c->stop;
                     $self->running(0);
+                    $self->halt(0);
                 }
                 else {
                     my $cc = [ 'control_change', $self->channel, $self->control, $value ];
@@ -652,6 +656,7 @@ sub ramp_down ($self, $device, $dt, $event) {
                 if ($self->halt) {
                     $c->stop;
                     $self->running(0);
+                    $self->halt(0);
                 }
                 else {
                     my $cc = [ 'control_change', $self->channel, $self->control, $value ];
