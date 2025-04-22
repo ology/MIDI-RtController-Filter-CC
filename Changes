@@ -1,6 +1,7 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Turn off halt when halting.
 
 0.0909 2025-04-22 12:00:21
   - Add the halt attribute to halt running filters.
