@@ -230,7 +230,8 @@ has range_step => (
   $time_step = $filter->time_step;
   $filter->time_step($number);
 
-The current iteration step in seconds (probably fractions).
+A (probably fractional) positive number that is the current iteration
+step in seconds.
 
 Default: C<0.25> (a quarter of a second)
 
