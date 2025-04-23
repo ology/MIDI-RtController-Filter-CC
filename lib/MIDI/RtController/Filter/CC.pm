@@ -161,8 +161,7 @@ has trigger => (
   $initial_point = $filter->initial_point;
   $filter->initial_point($number);
 
-Return or set the control change initial point number between C<0> and
-C<127>.
+Return or set the number of the initial point between C<0> and C<127>.
 
 Default: C<0>
 
@@ -179,7 +178,7 @@ has initial_point => (
   $range_bottom = $filter->range_bottom;
   $filter->range_bottom($number);
 
-The current iteration lowest number value.
+The lowest number value between C<0> and C<127>.
 
 Default: C<0>
 
@@ -196,7 +195,7 @@ has range_bottom => (
   $range_top = $filter->range_top;
   $filter->range_top($number);
 
-The current iteration highest number value.
+The highest number value between C<0> and C<127>.
 
 Default: C<127>
 
@@ -213,8 +212,8 @@ has range_top => (
   $range_step = $filter->range_step;
   $filter->range_step($number);
 
-A number greater than zero representing the current iteration step
-size between B<bottom> and B<top>.
+A number between C<0> and C<127> that is the current iteration step
+between the B<range_bottom> and B<range_top>.
 
 Default: C<1>
 
@@ -222,7 +221,7 @@ Default: C<1>
 
 has range_step => (
     is      => 'rw',
-    isa     => NegativeNum | PositiveNum,
+    isa     => Velocity, # no CC# msg value in Types::MIDI yet
     default => 1,
 );
 
@@ -248,7 +247,7 @@ has time_step => (
   $step_up = $filter->step_up;
   $filter->step_up($number);
 
-The current iteration upward step.
+The current iteration upward step. This can be any number.
 
 Default: C<2>
 
@@ -265,7 +264,7 @@ has step_up => (
   $step_down = $filter->step_down;
   $filter->step_down($number);
 
-The current iteration downward step.
+The current iteration downward step. This can be any number.
 
 Default: C<1>
 
@@ -299,7 +298,7 @@ has running => (
   $halt = $filter->halt;
   $filter->halt($boolean);
 
-Return or set B<halt>. This can be used to terminate B<running> filters.
+This Boolean can be used to terminate B<running> filters.
 
 Default: C<0>
 
@@ -333,8 +332,8 @@ example:
       port => 'keyboard',        # what device is controlling
       type => 'breathe',         # the type of filter
       event => 'control_change', # or [qw(note_on note_off)] etc
-      control => 1,              # what CC# is being controlled
-      trigger => 25,             # what CC# triggers the controlling
+      control => 1,              # the CC# is being controlled
+      trigger => 25,             # the CC# that triggers the control
       time_step => 0.25,         # a module attribute parameter
     },
     ...
