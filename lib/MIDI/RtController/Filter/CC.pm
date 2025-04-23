@@ -124,8 +124,8 @@ has control => (
   $filter->value($number);
 
 Return or set the MIDI event value. This is a generic setting that can
-be used by filters to set or retrieve state. This often a whole number
-between C<0> and C<127>, but can take any number.
+be used by filters to set or retrieve state and can be any whole
+number between C<0> and C<127> or C<undef>.
 
 Default: C<undef>
 
@@ -142,9 +142,9 @@ has value => (
   $trigger = $filter->trigger;
   $filter->trigger($number);
 
-Return or set the trigger. This is a generic setting that
-can be used by filters to set or retrieve state. This often a whole
-number between C<0> and C<127>, but can take any number.
+Return or set the trigger. This is a generic setting that can be used
+by filters to set or retrieve state and can be any whole number
+between C<0> and C<127> or C<undef>.
 
 Default: C<undef>
 
