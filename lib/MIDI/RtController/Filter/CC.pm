@@ -14,7 +14,7 @@ use Iterator::Breathe ();
 use Moo;
 use Types::MIDI qw(Channel Velocity);
 use Types::Common::Numeric qw(PositiveNum);
-use Types::Standard qw(Bool Num Maybe);
+use Types::Standard qw(Bool Maybe);
 use namespace::clean;
 
 =head1 SYNOPSIS
@@ -248,7 +248,8 @@ has time_step => (
   $step_up = $filter->step_up;
   $filter->step_up($number);
 
-The current iteration upward step. This can be any number.
+The current iteration upward step. This can be any whole number
+between C<0> and C<127>.
 
 Default: C<2>
 
@@ -256,7 +257,7 @@ Default: C<2>
 
 has step_up => (
     is      => 'rw',
-    isa     => Num,
+    isa     => Velocity, # no CC# in Types::MIDI yet
     default => 2,
 );
 
@@ -265,7 +266,8 @@ has step_up => (
   $step_down = $filter->step_down;
   $filter->step_down($number);
 
-The current iteration downward step. This can be any number.
+The current iteration downward step. This can be any whole number
+between C<0> and C<127>.
 
 Default: C<1>
 
@@ -273,7 +275,7 @@ Default: C<1>
 
 has step_down => (
     is      => 'rw',
-    isa     => Num,
+    isa     => Velocity, # no CC# in Types::MIDI yet
     default => 1,
 );
 
