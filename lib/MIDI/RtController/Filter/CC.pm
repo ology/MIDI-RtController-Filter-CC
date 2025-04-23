@@ -13,7 +13,7 @@ use IO::Async::Timer::Periodic ();
 use Iterator::Breathe ();
 use Moo;
 use Types::MIDI qw(Channel Velocity);
-use Types::Common::Numeric qw(NegativeNum PositiveNum);
+use Types::Common::Numeric qw(PositiveNum);
 use Types::Standard qw(Bool Num Maybe);
 use namespace::clean;
 
