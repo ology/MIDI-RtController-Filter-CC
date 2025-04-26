@@ -12,10 +12,11 @@ use IO::Async::Timer::Countdown ();
 use IO::Async::Timer::Periodic ();
 use Iterator::Breathe ();
 use Moo;
-use Types::MIDI qw(Channel Velocity);
+use Types::MIDI qw(Velocity);
 use Types::Common::Numeric qw(PositiveNum);
-use Types::Standard qw(Bool Maybe);
 use namespace::clean;
+
+extends 'MIDI::RtController::Filter';
 
 =head1 SYNOPSIS
 
@@ -69,38 +70,6 @@ not.
 
 =head1 ATTRIBUTES
 
-=head2 rtc
-
-  $rtc = $filter->rtc;
-
-The required L<MIDI::RtController> instance provided in the
-constructor.
-
-=cut
-
-has rtc => (
-    is  => 'ro',
-    isa => sub { die 'Invalid rtc' unless ref($_[0]) eq 'MIDI::RtController' },
-    required => 1,
-);
-
-=head2 channel
-
-  $channel = $filter->channel;
-  $filter->channel($number);
-
-The current MIDI channel value between C<0> and C<15>.
-
-Default: C<0>
-
-=cut
-
-has channel => (
-    is      => 'rw',
-    isa     => Channel,
-    default => 0,
-);
-
 =head2 control
 
   $control = $filter->control;
@@ -116,44 +85,6 @@ has control => (
     is      => 'rw',
     isa     => Velocity, # no CC# in Types::MIDI yet
     default => 1,
-);
-
-=head2 value
-
-  $value = $filter->value;
-  $filter->value($number);
-
-Return or set the MIDI event value. This is a generic setting that can
-be used by filters to set or retrieve state and can be any whole
-number between C<0> and C<127> or C<undef>.
-
-Default: C<undef>
-
-=cut
-
-has value => (
-    is      => 'rw',
-    isa     => Maybe[Velocity], # no CC# in Types::MIDI yet
-    default => undef,
-);
-
-=head2 trigger
-
-  $trigger = $filter->trigger;
-  $filter->trigger($number);
-
-Return or set the trigger. This is a generic setting that can be used
-by filters to set or retrieve state and can be any whole number
-between C<0> and C<127> or C<undef>.
-
-Default: C<undef>
-
-=cut
-
-has trigger => (
-    is      => 'rw',
-    isa     => Maybe[Velocity], # no CC# in Types::MIDI yet
-    default => undef,
 );
 
 =head2 initial_point
@@ -277,40 +208,6 @@ has step_down => (
     is      => 'rw',
     isa     => Velocity, # no CC# in Types::MIDI yet
     default => 1,
-);
-
-=head2 running
-
-  $running = $filter->running;
-  $filter->running($boolean);
-
-Are we running a filter?
-
-Default: C<0>
-
-=cut
-
-has running => (
-    is      => 'rw',
-    isa     => Bool,
-    default => 0,
-);
-
-=head2 halt
-
-  $halt = $filter->halt;
-  $filter->halt($boolean);
-
-This Boolean can be used to terminate B<running> filters.
-
-Default: C<0>
-
-=cut
-
-has halt => (
-    is      => 'rw',
-    isa     => Bool,
-    default => 0,
 );
 
 =head1 METHODS
