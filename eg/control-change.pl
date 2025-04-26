@@ -21,7 +21,7 @@ $filter->control(1); # CC#01 = mod-wheel
 # $filter->range_bottom(0);
 # $filter->range_top(70);
 # $filter->range_step(2);
-$filter->time_step(0.15);
+# $filter->time_step(0.15);
 # $filter->step_up(10);
 # $filter->step_down(2);
 
