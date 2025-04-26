@@ -1,6 +1,7 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Use the parent filter class now.
 
 0.0914 2025-04-26 11:10:19
   - Use defined-or in the single() filter.
