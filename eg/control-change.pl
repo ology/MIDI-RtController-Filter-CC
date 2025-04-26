@@ -17,7 +17,7 @@ my $control = MIDI::RtController->new(
 my $filter = MIDI::RtController::Filter::CC->new(rtc => $control);
 
 $filter->control(1); # CC#01 = mod-wheel
-# $filter->value(42);
+$filter->value(0);
 # $filter->range_bottom(0);
 # $filter->range_top(70);
 # $filter->range_step(2);
