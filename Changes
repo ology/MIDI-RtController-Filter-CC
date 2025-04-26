@@ -1,6 +1,7 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Use defined-or in the single() filter.
 
 0.0913 2025-04-23 12:09:15
   - Improve documentation.
