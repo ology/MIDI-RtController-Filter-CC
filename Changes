@@ -1,6 +1,7 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Improve documentation.
 
 0.1000 2025-04-26 15:52:57
   - Use the parent filter class now.
