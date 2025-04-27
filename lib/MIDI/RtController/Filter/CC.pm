@@ -594,11 +594,11 @@ __END__
 
 The F<eg/*.pl> program(s) in this distribution
 
-L<MIDI::RtController::Filter::Tonal> - Related module
+L<curry>
 
-L<MIDI::RtController::Filter::Math> - Related module
+L<MIDI::RtController::Filter>
 
-L<MIDI::RtController::Filter::Drums> - Related module
+L<IO::Async::Timer::Countdown>
 
 L<IO::Async::Timer::Periodic>
 
@@ -611,7 +611,5 @@ L<Moo>
 L<Types::MIDI>
 
 L<Types::Common::Numeric>
-
-L<Types::Standard>
 
 =cut
