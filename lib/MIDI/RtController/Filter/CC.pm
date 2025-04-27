@@ -47,27 +47,6 @@ extends 'MIDI::RtController::Filter';
 C<MIDI::RtController::Filter::CC> is a (growing) collection of
 control-change based L<MIDI::RtController> filters.
 
-Passing C<all> to the C<add_filter> method means that any MIDI event
-will trigger the filter.
-
-n.b. In order to stop a running filter, set the B<halt> attribute.
-
-=head2 Making filters
-
-All filter methods must accept the object, a MIDI device name, a
-delta-time, and a MIDI event ARRAY reference, like:
-
-  sub breathe ($self, $device, $delta, $event) {
-    return 0 if $self->running;
-    my ($event_type, $chan, $control, $value) = $event->@*;
-    ...
-    return $boolean;
-  }
-
-A filter also must return a boolean value. This tells
-L<MIDI::RtController> to continue processing other known filters or
-not.
-
 =head1 ATTRIBUTES
 
 =head2 control
