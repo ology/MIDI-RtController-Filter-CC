@@ -24,12 +24,12 @@ extends 'MIDI::RtController::Filter';
   use MIDI::RtController ();
   use MIDI::RtController::Filter::CC ();
 
-  my $control = MIDI::RtController->new(
+  my $controller = MIDI::RtController->new(
     input  => 'keyboard',
     output => 'usb',
   );
 
-  my $filter = MIDI::RtController::Filter::CC->new(rtc => $control);
+  my $filter = MIDI::RtController::Filter::CC->new(rtc => $controller);
 
   $filter->control(1); # CC#01 = mod-wheel
   $filter->channel(0);
@@ -38,9 +38,9 @@ extends 'MIDI::RtController::Filter';
   $filter->range_step(2);
   $filter->time_step(0.25);
 
-  $control->add_filter('breathe', all => $filter->curry::breathe);
+  $controller->add_filter('breathe', all => $filter->curry::breathe);
 
-  $control->run;
+  $controller->run;
 
 =head1 DESCRIPTION
 
@@ -269,7 +269,7 @@ sub single ($self, $device, $dt, $event) {
     my $cc = [ 'control_change', $self->channel, $self->control, $value ];
     $self->rtc->send_it($cc);
 
-    return 0;
+    return $self->continue;
 }
 
 =head2 breathe
@@ -325,7 +325,7 @@ sub breathe ($self, $device, $dt, $event) {
         )->start
     );
 
-    return 0;
+    return $self->continue;
 }
 
 =head2 scatter
@@ -378,7 +378,7 @@ sub scatter ($self, $device, $dt, $event) {
         )->start
     );
 
-    return 0;
+    return $self->continue;
 }
 
 =head2 stair_step
@@ -449,7 +449,7 @@ sub stair_step ($self, $device, $dt, $event) {
             },
         )->start
     );
-    return 0;
+    return $self->continue;
 }
 
 =head2 ramp_up
@@ -506,7 +506,7 @@ sub ramp_up ($self, $device, $dt, $event) {
         )->start
     );
 
-    return 0;
+    return $self->continue;
 }
 
 =head2 ramp_down
@@ -563,7 +563,7 @@ sub ramp_down ($self, $device, $dt, $event) {
         )->start
     );
 
-    return 0;
+    return $self->continue;
 }
 
 1;
