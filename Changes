@@ -1,6 +1,7 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Use the range bottom and top for the flicker filter.
 
 0.1100 2025-04-27 18:12:00
   - Add the flicker filter.
