@@ -590,7 +590,7 @@ sub flicker ($self, $device, $dt, $event) {
 
     $self->running(1);
 
-    my $value = 0;
+    my $value = $self->range_bottom;
 
     $self->rtc->loop->add(
         IO::Async::Timer::Countdown->new(
@@ -605,7 +605,7 @@ sub flicker ($self, $device, $dt, $event) {
                 else {
                     my $cc = [ 'control_change', $self->channel, $self->control, $value ];
                     $self->rtc->send_it($cc);
-                    $value = $value ? 0 : 127;
+                    $value = $value == $self->range_top ? $self->range_bottom : $self->range_top;
                     $c->start;
                 }
             },
