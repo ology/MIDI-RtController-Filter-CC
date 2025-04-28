@@ -571,7 +571,8 @@ sub ramp_down ($self, $device, $dt, $event) {
   $control->add_filter('flicker', all => $filter->curry::flicker);
 
 This filter toggles a B<control> change message, over the MIDI
-B<channel>, on (C<127>) and off (C<0>).
+B<channel>, between the B<range_bottom> ("off") and the B<range_top>
+("on").
 
 If B<trigger> or B<value> is set, the filter checks those against the
 MIDI event C<note> or C<value>, respectively, to see if the filter
