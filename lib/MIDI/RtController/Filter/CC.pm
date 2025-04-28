@@ -566,6 +566,55 @@ sub ramp_down ($self, $device, $dt, $event) {
     return $self->continue;
 }
 
+=head2 flicker
+
+  $control->add_filter('flicker', all => $filter->curry::flicker);
+
+This filter toggles a B<control> change message, over the MIDI
+B<channel>, on (C<127>) and off (C<0>).
+
+If B<trigger> or B<value> is set, the filter checks those against the
+MIDI event C<note> or C<value>, respectively, to see if the filter
+should be applied.
+
+If the B<halt> attribute is set to true, the running filter will stop.
+
+=cut
+
+sub flicker ($self, $device, $dt, $event) {
+    return 0 if $self->running;
+
+    my ($ev, $chan, $note, $val) = $event->@*;
+    return 0 if defined $self->trigger && $note != $self->trigger;
+    return 0 if defined $self->value && $val != $self->value;
+
+    $self->running(1);
+
+    my $value = 0;
+
+    $self->rtc->loop->add(
+        IO::Async::Timer::Countdown->new(
+            delay     => $self->time_step,
+            on_expire => sub {
+                my ($c) = @_;
+                if ($self->halt) {
+                    $c->stop;
+                    $self->running(0);
+                    $self->halt(0);
+                }
+                else {
+                    my $cc = [ 'control_change', $self->channel, $self->control, $value ];
+                    $self->rtc->send_it($cc);
+                    $value = $value ? 0 : 127;
+                    $c->start;
+                }
+            },
+        )->start
+    );
+
+    return $self->continue;
+}
+
 1;
 __END__
 
