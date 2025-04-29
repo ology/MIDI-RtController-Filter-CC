@@ -7,7 +7,7 @@ use MIDI::RtController ();
 use MIDI::RtController::Filter::CC ();
 use Term::TermKey::Async qw(FORMAT_VIM KEYMOD_CTRL);
 
-my $input_name  = shift || 'pad';
+my $input_name  = shift || 'keyboard';
 my $output_name = shift || 'usb';
 my $filter_name = shift || 'breathe';
 
