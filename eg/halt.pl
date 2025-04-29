@@ -9,7 +9,6 @@ use Term::TermKey::Async qw(FORMAT_VIM KEYMOD_CTRL);
 
 my $input_name  = shift || 'keyboard';
 my $output_name = shift || 'usb';
-my $filter_name = shift || 'breathe';
 
 my $controller = MIDI::RtController->new(
     input   => $input_name,
@@ -22,8 +21,7 @@ my $filter = MIDI::RtController::Filter::CC->new(rtc => $controller);
 $filter->control(1); # CC#01 = mod-wheel
 $filter->trigger(25);
 
-my $method = "curry::$filter_name";
-$controller->add_filter($filter_name, all => $filter->$method);
+$controller->add_filter('breathe', all => $filter->curry::breathe);
 
 my $tka = Term::TermKey::Async->new(
     term   => \*STDIN,
