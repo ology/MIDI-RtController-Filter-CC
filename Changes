@@ -1,6 +1,7 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Add the eg/halt.pl program.
 
 0.1102 2025-04-27 18:21:58
   - Fix documentation.
