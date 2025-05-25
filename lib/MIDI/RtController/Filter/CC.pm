@@ -272,6 +272,45 @@ sub single ($self, $device, $dt, $event) {
     return $self->continue;
 }
 
+=head2 clock_it
+
+  $control->add_filter('clock_it', all => $filter->curry::clock_it);
+
+This filter sets the B<running> flag and sends a B<clock> message,
+over the MIDI B<channel>, every iteration of B<time_step>.
+
+If the B<halt> attribute is set to true, the running filter will stop.
+
+=cut
+
+sub clock_it ($self, $device, $dt, $event) {
+    return 0 if $self->running;
+
+    $self->running(1);
+
+    $self->rtc->send_it(['start']);
+
+    $self->rtc->loop->add(
+        IO::Async::Timer::Periodic->new(
+            interval  => $self->time_step,
+            on_tick => sub {
+                my ($c) = @_;
+                if ($self->halt) {
+                    $self->rtc->send_it(['stop']);
+                    $c->stop;
+                    $self->running(0);
+                    $self->halt(0);
+                }
+                else {
+                    $self->rtc->send_it(['clock']);
+                }
+            },
+        )->start
+    );
+
+    return $self->continue;
+}
+
 =head2 breathe
 
   $control->add_filter('breathe', all => $filter->curry::breathe);
