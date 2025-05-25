@@ -1,6 +1,8 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+
+0.1200 2025-05-25 01:36:51
   - Add the clock_it filter.
   - Fiddle with the eg/control-change.pl program...
 
