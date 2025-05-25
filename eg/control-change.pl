@@ -16,9 +16,11 @@ my $controller = MIDI::RtController->new(
 
 my $filter = MIDI::RtController::Filter::CC->new(rtc => $controller);
 
+$controller->send_it(['patch_change', $filter->channel, 6]);
+
 # $filter->trigger(25);
-$filter->control(1); # CC#01 = mod-wheel
-$filter->value(0);
+# $filter->control(1); # CC#01 = mod-wheel
+# $filter->value(0);
 # $filter->range_bottom(0);
 # $filter->range_top(70);
 # $filter->range_step(2);
@@ -26,8 +28,8 @@ $filter->value(0);
 # $filter->step_up(10);
 # $filter->step_down(2);
 
-my $method = "curry::$filter_name";
-$controller->add_filter($filter_name, all => $filter->$method);
+# my $method = "curry::$filter_name";
+# $controller->add_filter($filter_name, all => $filter->$method);
 
 $controller->run;
 
