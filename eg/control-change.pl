@@ -34,3 +34,7 @@ $controller->add_filter($filter_name, all => $filter->$method);
 $controller->run;
 
 # ...and now trigger a MIDI message!
+
+END {
+    $filter->halt(1);
+}
