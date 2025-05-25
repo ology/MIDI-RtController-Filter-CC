@@ -1,6 +1,7 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Add the clock_it filter.
 
 0.1103 2025-04-28 22:36:45
   - Add the eg/halt.pl program.
