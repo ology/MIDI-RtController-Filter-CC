@@ -2,23 +2,22 @@
 
 use MIDI::RtController ();
 use MIDI::RtController::Filter::CC ();
-use Object::Destroyer ();
 
-my $in  = shift || '49 midi'; # keyboard controller
+my $in  = shift || 'pad'; # keyboard controller
 my $out = shift || 'usb'; # midi output
 
 my @filters = (
     { # cutoff
-        port => '49 midi',
+        port => $in,
         event => 'control_change',
-        control => 74,
-        trigger => 35,
+        control => 74, # CUTOFF
+        trigger => 12, # X axis
     },
     { # resonance
-        port => '49 midi',
+        port => $in,
         event => 'control_change',
-        control => 71,
-        trigger => 36,
+        control => 71, # RESONANCE
+        trigger => 13, # Y axis
     },
 );
 
@@ -34,8 +33,3 @@ MIDI::RtController::Filter::CC::add_filters(\@filters, { $in => $controller });
 $controller->run;
 
 # ...and now trigger a MIDI message!
-
-# XXX maybe needed?
-END: {
-    Object::Destroyer->new($controller, 'delete');
-}
