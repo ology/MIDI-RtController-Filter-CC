@@ -230,7 +230,8 @@ MIDI input device port names.
 =cut
 
 sub add_filters ($filters, $controllers) {
-    for my $params (@$filters) {
+    for my $orig (@$filters) {
+        my %params = %$orig; # work on a copy
         my $port = delete $params->{port};
         # skip unnamed and unknown entries
         next if !$port || !exists $controllers->{$port};
