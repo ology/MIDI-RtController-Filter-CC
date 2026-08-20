@@ -5,7 +5,7 @@ use MIDI::RtController::Filter::CC ();
 
 my $in  = shift || 'pad';        # midi input controller
 my $out = shift || 'usb';        # midi output
-my $ctl = shift || '12=74,13=71' # trigger=control,...
+my $ctl = shift || '12=74,13=71' # trigger=control,... cutoff,resonance
 
 my %ctl = map { split /=/, $_ } split /,/, $ctl;
 my @filters = map {
