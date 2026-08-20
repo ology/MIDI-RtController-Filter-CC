@@ -7,13 +7,13 @@ my $in  = shift || 'pad'; # midi input controller
 my $out = shift || 'usb'; # midi output
 
 my @filters = (
-    { # cutoff
+    {
         port => $in,
         event => 'control_change',
         control => 74, # CUTOFF
         trigger => 12, # X axis
     },
-    { # resonance
+    {
         port => $in,
         event => 'control_change',
         control => 71, # RESONANCE
