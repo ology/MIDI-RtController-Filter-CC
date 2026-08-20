@@ -54,7 +54,8 @@ control-change based L<MIDI::RtController> filters.
   $control = $filter->control;
   $filter->control($number);
 
-Return or set the control change number between C<0> and C<127>.
+Return or set the control change number between C<0> and C<127> that
+is the parameter to be controlled.
 
 Default: C<1> (mod-wheel)
 
@@ -298,6 +299,7 @@ sub clock_it ($self, $device, $dt, $event) {
                 if ($self->halt) {
                     $self->rtc->send_it(['stop']);
                     $c->stop;
+                    $self->rtc->loop->remove($c);
                     $self->running(0);
                     $self->halt(0);
                 }
@@ -352,6 +354,7 @@ sub breathe ($self, $device, $dt, $event) {
                 my ($c) = @_;
                 if ($self->halt) {
                     $c->stop;
+                    $self->rtc->loop->remove($c);
                     $self->running(0);
                     $self->halt(0);
                 }
@@ -405,6 +408,7 @@ sub scatter ($self, $device, $dt, $event) {
                 my ($c) = @_;
                 if ($self->halt) {
                     $c->stop;
+                    $self->rtc->loop->remove($c);
                     $self->running(0);
                     $self->halt(0);
                 }
@@ -461,6 +465,7 @@ sub stair_step ($self, $device, $dt, $event) {
                 my ($c) = @_;
                 if ($self->halt) {
                     $c->stop;
+                    $self->rtc->loop->remove($c);
                     $self->running(0);
                     $self->halt(0);
                 }
@@ -524,6 +529,7 @@ sub ramp_up ($self, $device, $dt, $event) {
                 my ($c) = @_;
                 if ($self->halt) {
                     $c->stop;
+                    $self->rtc->loop->remove($c);
                     $self->running(0);
                     $self->halt(0);
                 }
@@ -535,6 +541,7 @@ sub ramp_up ($self, $device, $dt, $event) {
 
                     if ($value > $self->range_top) {
                         $c->stop;
+                        $self->rtc->loop->remove($c);
                         $self->running(0);
                     }
                     else {
@@ -581,6 +588,7 @@ sub ramp_down ($self, $device, $dt, $event) {
                 my ($c) = @_;
                 if ($self->halt) {
                     $c->stop;
+                    $self->rtc->loop->remove($c);
                     $self->running(0);
                     $self->halt(0);
                 }
@@ -592,6 +600,7 @@ sub ramp_down ($self, $device, $dt, $event) {
 
                     if ($value < $self->range_bottom) {
                         $c->stop;
+                        $self->rtc->loop->remove($c);
                         $self->running(0);
                     }
                     else {
@@ -639,6 +648,7 @@ sub flicker ($self, $device, $dt, $event) {
                 my ($c) = @_;
                 if ($self->halt) {
                     $c->stop;
+                    $self->rtc->loop->remove($c);
                     $self->running(0);
                     $self->halt(0);
                 }
