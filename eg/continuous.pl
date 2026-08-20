@@ -7,8 +7,7 @@ my $in  = shift || 'pad';        # midi input controller
 my $out = shift || 'usb';        # midi output
 my $ctl = shift || '12=74,13=71' # trigger=control,...
 
-my @ctl = split /,/, $ctl;
-my %ctl = map { split /=/, $_ } @ctl;
+my %ctl = map { split /=/, $_ } split /,/, $ctl;
 my @filters = map {
     +{
         port  => $in,
