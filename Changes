@@ -1,6 +1,7 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Fix the eg/continuous.pl program.
 
 0.1201 2026-08-20 10:14:30
   - Cleaned up potential failures in the code.

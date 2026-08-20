@@ -15,7 +15,7 @@ my @filters = map {
         trigger => $_,
         control => $ctl{$_},
     }
-}
+} keys %ctl;
 
 my $controller = MIDI::RtController->new(
     input   => $in,
