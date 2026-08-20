@@ -3,7 +3,7 @@
 use MIDI::RtController ();
 use MIDI::RtController::Filter::CC ();
 
-my $in  = shift || 'pad'; # keyboard controller
+my $in  = shift || 'pad'; # midi input controller
 my $out = shift || 'usb'; # midi output
 
 my @filters = (
