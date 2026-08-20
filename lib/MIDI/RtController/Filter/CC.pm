@@ -237,19 +237,19 @@ MIDI input device port names.
 sub add_filters ($filters, $controllers) {
     for my $orig (@$filters) {
         my %params = %$orig; # work on a copy
-        my $port = delete $params->{port};
+        my $port = delete $params{port};
         # skip unnamed and unknown entries
         next if !$port || !exists $controllers->{$port};
-        my $type = delete $params->{type} || 'single';
+        my $type = delete $params{type} || 'single';
         croak qq{Unknown filter type "$type" (must be one of: } . join(', ', KNOWN_FILTERS) . ')'
             unless grep { $_ eq $type } KNOWN_FILTERS;
-        my $event = delete $params->{event} || 'all';
+        my $event = delete $params{event} || 'all';
         my $filter = __PACKAGE__->new(
             rtc => $controllers->{$port}
         );
         # assume all remaining key/values are module attributes
-        for my $param (keys %$params) {
-            $filter->$param($params->{$param});
+        for my $param (keys %params) {
+            $filter->$param( $params{$param} );
         }
         my $method = "curry::$type";
         $controllers->{$port}->add_filter($type, $event => $filter->$method);
