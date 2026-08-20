@@ -7,6 +7,7 @@ our $VERSION = '0.1200';
 use v5.36;
 
 use strictures 2;
+use Carp qw(croak);
 use curry;
 use IO::Async::Timer::Countdown ();
 use IO::Async::Timer::Periodic ();
@@ -15,6 +16,10 @@ use Moo;
 use Types::MIDI qw(Velocity);
 use Types::Common::Numeric qw(PositiveNum);
 use namespace::clean;
+
+use constant KNOWN_FILTERS => qw(
+    single clock_it breathe scatter stair_step ramp_up ramp_down flicker
+);
 
 extends 'MIDI::RtController::Filter';
 
@@ -236,6 +241,8 @@ sub add_filters ($filters, $controllers) {
         # skip unnamed and unknown entries
         next if !$port || !exists $controllers->{$port};
         my $type = delete $params->{type} || 'single';
+        croak qq{Unknown filter type "$type" (must be one of: } . join(', ', KNOWN_FILTERS) . ')'
+            unless grep { $_ eq $type } KNOWN_FILTERS;
         my $event = delete $params->{event} || 'all';
         my $filter = __PACKAGE__->new(
             rtc => $controllers->{$port}
@@ -248,8 +255,6 @@ sub add_filters ($filters, $controllers) {
         $controllers->{$port}->add_filter($type, $event => $filter->$method);
     }
 }
-
-=head1 FILTERS
 
 =head2 single
 
