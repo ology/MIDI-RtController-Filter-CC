@@ -9,7 +9,6 @@ my $ctl = shift || '12=74,13=71' # trigger=control,...
 
 my @ctl = split /,/, $ctl;
 my %ctl = map { split /=/, $_ } @ctl;
-
 my @filters = map {
     +{
         port  => $in,
