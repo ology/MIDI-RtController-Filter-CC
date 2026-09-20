@@ -671,6 +671,39 @@ sub flicker ($self, $device, $dt, $event) {
     return $self->continue;
 }
 
+=head2 threshold
+
+  $control->add_filter('threshold', all => $filter->curry::threshold);
+
+This filter only allows notes with velocity above or below a given
+threshold, specified by the L</trigger>. If only notes I<above> are
+allowed, set the L</step_up> attribute to C<1> and set the
+L</step_down> attribute to C<0>. For notes I<below> allowed, swap
+these step attribute settings.
+
+=cut
+
+sub threshold ($self, $device, $dt, $event) {
+    return 0 if $self->running;
+
+    my ($ev, $chan, $note, $val) = $event->@*;
+
+    if (defined $self->trigger && defined $note) {
+        if ($self->step_up && !$self->step_down && $val <= $self->trigger) {
+            return 0;
+        }
+        elsif (!$self->step_up && $self->step_down && $val >= $self->trigger) {
+            return 0;
+        }
+        else {
+            say "Sending $note" if $self->verbose;
+            $self->rtc->send_it([ $ev, $self->channel, $note, $val ]);
+        }
+    }
+
+    return $self->continue;
+}
+
 1;
 __END__
 
