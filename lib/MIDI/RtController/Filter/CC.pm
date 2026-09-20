@@ -2,7 +2,7 @@ package MIDI::RtController::Filter::CC;
 
 # ABSTRACT: Control-change based RtController filters
 
-our $VERSION = '0.1300';
+our $VERSION = '0.1301';
 
 use v5.36;
 
@@ -18,7 +18,7 @@ use Types::Common::Numeric qw(PositiveNum);
 use namespace::clean;
 
 use constant KNOWN_FILTERS => qw(
-    single clock_it breathe scatter stair_step ramp_up ramp_down flicker
+    single clock_it breathe scatter stair_step ramp_up ramp_down flicker threshold
 );
 
 extends 'MIDI::RtController::Filter';
