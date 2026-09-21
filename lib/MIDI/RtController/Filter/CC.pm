@@ -687,21 +687,21 @@ sub threshold ($self, $device, $dt, $event) {
     return 0 if $self->running;
 
     my ($ev, $chan, $note, $val) = $event->@*;
+    return $self->continue unless defined $self->trigger && defined $val;
 
-    if (defined $self->trigger && defined $note) {
-        if ($self->step_up && !$self->step_down && $val <= $self->trigger) {
-            return 0;
-        }
-        elsif (!$self->step_up && $self->step_down && $val >= $self->trigger) {
-            return 0;
-        }
-        else {
-            say "Sending $note" if $self->verbose;
-            $self->rtc->send_it([ $ev, $self->channel, $note, $val ]);
-        }
+    my $above_only = $self->step_up   && !$self->step_down;
+    my $below_only = $self->step_down && !$self->step_up;
+
+    if ($above_only && $val <= $self->trigger) {
+        return 0; # only notes above or equal to trigger are allowed
+    }
+    if ($below_only && $val >= $self->trigger) {
+        return 0; # only notes below or equal to trigger are allowed
     }
 
-    return $self->continue;
+    say "Sending $note" if $self->verbose;
+    $self->rtc->send_it([ $ev, $self->channel, $note, $val ]);
+    return 0; # we already forwarded it ourselves — don't double-send via continue
 }
 
 1;

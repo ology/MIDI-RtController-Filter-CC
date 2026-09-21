@@ -1,6 +1,7 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Clarify the `threshold()` filter logic.
 
 0.1301 2026-09-20 02:03:49
   - Add threshold to the known filters. Oops.
