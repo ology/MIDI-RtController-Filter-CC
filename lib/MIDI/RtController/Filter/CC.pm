@@ -700,7 +700,7 @@ sub threshold ($self, $device, $dt, $event) {
     }
 
     say "Sending $note" if $self->verbose;
-    return 0; # allow: let MIDI::RtController's own fallback send_it forward it once
+    return 0; # fallback: send_it forward it once
 }
 
 1;
