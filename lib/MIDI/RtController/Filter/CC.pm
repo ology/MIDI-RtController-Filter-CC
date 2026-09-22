@@ -2,7 +2,7 @@ package MIDI::RtController::Filter::CC;
 
 # ABSTRACT: Control-change based RtController filters
 
-our $VERSION = '0.1400';
+our $VERSION = '0.1401';
 
 use v5.36;
 
@@ -713,8 +713,6 @@ configured MIDI B<channel> with the B<trigger>.
 =cut
 
 sub program_change ($self, $device, $dt, $event) {
-    my ($ev, $chan, $note, $unused) = $event->@*;
-
     return 0 unless defined $self->trigger;
 
     my $program = $self->trigger;
