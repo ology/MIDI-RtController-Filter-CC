@@ -18,7 +18,7 @@ use Types::Common::Numeric qw(PositiveNum);
 use namespace::clean;
 
 use constant KNOWN_FILTERS => qw(
-    single clock_it breathe scatter stair_step ramp_up ramp_down flicker threshold
+    single clock_it breathe scatter stair_step ramp_up ramp_down flicker threshold program_change
 );
 
 extends 'MIDI::RtController::Filter';
@@ -701,6 +701,28 @@ sub threshold ($self, $device, $dt, $event) {
 
     say "Sending $note" if $self->verbose;
     return 0; # fallback: send_it forward it once
+}
+
+=head2 program_change
+
+  $control->add_filter('program_change', all => $filter->curry::program_change);
+
+This filter handles MIDI program/patch change messages over the
+configured MIDI B<channel> with the B<trigger>.
+
+=cut
+
+sub program_change ($self, $device, $dt, $event) {
+    my ($ev, $chan, $note, $unused) = $event->@*;
+
+    # return 0 unless ($ev eq 'program_change' || $ev eq 'patch_change');
+    return 0 unless defined $self->trigger;
+
+    my $program = $self->trigger;
+
+    $self->rtc->send_it([ 'patch_change', $self->channel, $program ]);
+
+    return $self->continue;
 }
 
 1;
