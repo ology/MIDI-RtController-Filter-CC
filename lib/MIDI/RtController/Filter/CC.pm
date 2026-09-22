@@ -715,7 +715,6 @@ configured MIDI B<channel> with the B<trigger>.
 sub program_change ($self, $device, $dt, $event) {
     my ($ev, $chan, $note, $unused) = $event->@*;
 
-    # return 0 unless ($ev eq 'program_change' || $ev eq 'patch_change');
     return 0 unless defined $self->trigger;
 
     my $program = $self->trigger;
