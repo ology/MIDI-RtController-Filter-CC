@@ -21,7 +21,3 @@ $filter->trigger(2);
 $controller->add_filter('program_change', all => $filter->curry::program_change);
 
 $controller->run;
-
-END {
-    $controller->stop;
-}
