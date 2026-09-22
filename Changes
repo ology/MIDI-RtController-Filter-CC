@@ -1,6 +1,8 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Improve documentation.
+  - Remove more cruft!
 
 0.1402 2026-09-22 11:45:28
   - Remove more cruft.

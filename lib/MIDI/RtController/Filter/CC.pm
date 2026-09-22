@@ -2,7 +2,7 @@ package MIDI::RtController::Filter::CC;
 
 # ABSTRACT: Control-change based RtController filters
 
-our $VERSION = '0.1402';
+our $VERSION = '0.1403';
 
 use v5.36;
 
@@ -25,7 +25,6 @@ extends 'MIDI::RtController::Filter';
 
 =head1 SYNOPSIS
 
-  use curry;
   use MIDI::RtController ();
   use MIDI::RtController::Filter::CC ();
 
@@ -49,8 +48,8 @@ extends 'MIDI::RtController::Filter';
 
 =head1 DESCRIPTION
 
-C<MIDI::RtController::Filter::CC> is a (growing) collection of
-control-change based L<MIDI::RtController> filters.
+C<MIDI::RtController::Filter::CC> is a (growing) collection of MIDI
+L<MIDI::RtController> filters.
 
 =head1 ATTRIBUTES
 
@@ -59,8 +58,7 @@ control-change based L<MIDI::RtController> filters.
   $control = $filter->control;
   $filter->control($number);
 
-Return or set the control change number between C<0> and C<127> that
-is the parameter to be controlled.
+Return or set the control change number between C<0> and C<127>.
 
 Default: C<1> (mod-wheel)
 
@@ -85,7 +83,7 @@ Default: C<0>
 
 has initial_point => (
     is      => 'rw',
-    isa     => Velocity, # no CC# msg value in Types::MIDI yet
+    isa     => Velocity,
     default => 0,
 );
 
@@ -102,7 +100,7 @@ Default: C<0>
 
 has range_bottom => (
     is      => 'rw',
-    isa     => Velocity, # no CC# msg value in Types::MIDI yet
+    isa     => Velocity,
     default => 0,
 );
 
@@ -119,7 +117,7 @@ Default: C<127>
 
 has range_top => (
     is      => 'rw',
-    isa     => Velocity, # no CC# msg value in Types::MIDI yet
+    isa     => Velocity,
     default => 127,
 );
 
@@ -137,7 +135,7 @@ Default: C<1>
 
 has range_step => (
     is      => 'rw',
-    isa     => Velocity, # no CC# msg value in Types::MIDI yet
+    isa     => Velocity,
     default => 1,
 );
 
@@ -173,7 +171,7 @@ Default: C<2>
 
 has step_up => (
     is      => 'rw',
-    isa     => Velocity, # no CC# in Types::MIDI yet
+    isa     => Velocity,
     default => 2,
 );
 
@@ -191,7 +189,7 @@ Default: C<1>
 
 has step_down => (
     is      => 'rw',
-    isa     => Velocity, # no CC# in Types::MIDI yet
+    isa     => Velocity,
     default => 1,
 );
 
