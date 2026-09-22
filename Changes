@@ -1,6 +1,7 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Add the `in_channel` attribute.
 
 0.1403 2026-09-22 11:52:58
   - Improve documentation.

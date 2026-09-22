@@ -15,6 +15,7 @@ use Iterator::Breathe ();
 use Moo;
 use Types::MIDI qw(Velocity);
 use Types::Common::Numeric qw(PositiveNum);
+use Types::Standard qw(Maybe Int);
 use namespace::clean;
 
 use constant KNOWN_FILTERS => qw(
@@ -193,6 +194,32 @@ has step_down => (
     default => 1,
 );
 
+=head2 in_channel
+
+  $in_channel = $filter->in_channel;
+  $filter->in_channel($number);
+
+Optionally restrict filters to only respond to incoming events on this
+MIDI channel (C<0> to C<15>).
+
+This is independent of B<channel>, which is the channel this filter
+uses when it sends its own MIDI messages back out.
+
+Default: C<undef> (respond to incoming events on any channel)
+
+=cut
+
+has in_channel => (
+    is  => 'rw',
+    isa => Maybe[Int],
+);
+
+# True if $chan should be handled by this filter
+sub _in_channel_ok ($self, $chan) {
+    return 1 unless defined $self->in_channel;
+    return defined $chan && $chan == $self->in_channel;
+}
+
 =head1 METHODS
 
 =head2 new
@@ -268,6 +295,7 @@ C<note> to see if the filter should be applied.
 
 sub single ($self, $device, $dt, $event) {
     my ($ev, $chan, $note, $val) = $event->@*;
+    return 0 unless $self->_in_channel_ok($chan);
     return 0 if defined $self->trigger && defined $note && $note != $self->trigger;
 
     my $value = $self->value // $val;
@@ -290,6 +318,9 @@ If the B<halt> attribute is set to true, the running filter will stop.
 
 sub clock_it ($self, $device, $dt, $event) {
     return 0 if $self->running;
+
+    my ($ev, $chan) = $event->@*;
+    return 0 unless $self->_in_channel_ok($chan);
 
     $self->running(1);
 
@@ -340,6 +371,7 @@ sub breathe ($self, $device, $dt, $event) {
     return 0 if $self->running;
 
     my ($ev, $chan, $note, $val) = $event->@*;
+    return 0 unless $self->_in_channel_ok($chan);
     return 0 if defined $self->trigger && defined $note && $note != $self->trigger;
     return 0 if defined $self->value   && defined $val  && $val  != $self->value;
 
@@ -397,6 +429,7 @@ sub scatter ($self, $device, $dt, $event) {
     return 0 if $self->running;
 
     my ($ev, $chan, $note, $val) = $event->@*;
+    return 0 unless $self->_in_channel_ok($chan);
     return 0 if defined $self->trigger && defined $note && $note != $self->trigger;
     return 0 if defined $self->value   && defined $val  && $val  != $self->value;
 
@@ -449,6 +482,7 @@ sub stair_step ($self, $device, $dt, $event) {
     return 0 if $self->running;
 
     my ($ev, $chan, $note, $val) = $event->@*;
+    return 0 unless $self->_in_channel_ok($chan);
     return 0 if defined $self->trigger && defined $note && $note != $self->trigger;
     return 0 if defined $self->value   && defined $val  && $val  != $self->value;
 
@@ -519,6 +553,7 @@ sub ramp_up ($self, $device, $dt, $event) {
     return 0 if $self->running;
 
     my ($ev, $chan, $note, $val) = $event->@*;
+    return 0 unless $self->_in_channel_ok($chan);
     return 0 if defined $self->trigger && defined $note && $note != $self->trigger;
     return 0 if defined $self->value   && defined $val  && $val  != $self->value;
 
@@ -578,6 +613,7 @@ sub ramp_down ($self, $device, $dt, $event) {
     return 0 if $self->running;
 
     my ($ev, $chan, $note, $val) = $event->@*;
+    return 0 unless $self->_in_channel_ok($chan);
     return 0 if defined $self->trigger && defined $note && $note != $self->trigger;
     return 0 if defined $self->value   && defined $val  && $val  != $self->value;
 
@@ -638,6 +674,7 @@ sub flicker ($self, $device, $dt, $event) {
     return 0 if $self->running;
 
     my ($ev, $chan, $note, $val) = $event->@*;
+    return 0 unless $self->_in_channel_ok($chan);
     return 0 if defined $self->trigger && defined $note && $note != $self->trigger;
     return 0 if defined $self->value   && defined $val  && $val  != $self->value;
 
@@ -685,6 +722,7 @@ sub threshold ($self, $device, $dt, $event) {
     return 0 if $self->running;
 
     my ($ev, $chan, $note, $val) = $event->@*;
+    return 0 unless $self->_in_channel_ok($chan);
     return 0 unless defined $self->trigger && defined $val;
 
     my $above_only = $self->step_up   && !$self->step_down;
@@ -711,6 +749,8 @@ configured MIDI B<channel> with the B<trigger>.
 =cut
 
 sub program_change ($self, $device, $dt, $event) {
+    my ($ev, $chan) = $event->@*;
+    return 0 unless $self->_in_channel_ok($chan);
     return 0 unless defined $self->trigger;
 
     my $program = $self->trigger;
