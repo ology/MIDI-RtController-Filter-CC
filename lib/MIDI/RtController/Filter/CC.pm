@@ -2,7 +2,7 @@ package MIDI::RtController::Filter::CC;
 
 # ABSTRACT: Control-change based RtController filters
 
-our $VERSION = '0.1303';
+our $VERSION = '0.1400';
 
 use v5.36;
 

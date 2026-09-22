@@ -1,6 +1,7 @@
 Revision history for MIDI-RtController-Filter-CC
 
 {{$NEXT}}
+  - Add the `program_change()` filter.
 
 0.1303 2026-09-20 22:37:58
   - Fix truthy values vs the `threshold()` filter returns.
