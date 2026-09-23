@@ -19,7 +19,7 @@ use Types::Standard qw(Maybe Int);
 use namespace::clean;
 
 use constant KNOWN_FILTERS => qw(
-    single clock_it breathe scatter stair_step ramp_up ramp_down flicker threshold program_change remap
+    single clock_it breathe scatter stair_step ramp_up ramp_down flicker threshold program_change
 );
 
 extends 'MIDI::RtController::Filter';
