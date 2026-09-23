@@ -19,7 +19,7 @@ use Types::Standard qw(Maybe Int);
 use namespace::clean;
 
 use constant KNOWN_FILTERS => qw(
-    single clock_it breathe scatter stair_step ramp_up ramp_down flicker threshold program_change
+    single clock_it breathe scatter stair_step ramp_up ramp_down flicker threshold program_change remap
 );
 
 extends 'MIDI::RtController::Filter';
@@ -736,7 +736,10 @@ sub threshold ($self, $device, $dt, $event) {
     }
 
     say "Sending $note" if $self->verbose;
-    return 0; # fallback: send_it forward it once
+    my $msg = [ $ev, $self->channel, $note, $val ];
+    $self->rtc->send_it($msg);
+
+    return $self->continue;
 }
 
 =head2 program_change
