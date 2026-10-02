@@ -691,8 +691,6 @@ these step attribute settings.
 =cut
 
 sub threshold ($self, $device, $dt, $event) {
-    return 0 if $self->running;
-
     my ($ev, $chan, $note, $val) = $event->@*;
 
     return 0 unless defined $self->trigger && defined $val;
@@ -719,17 +717,19 @@ sub threshold ($self, $device, $dt, $event) {
   $control->add_filter('program_change', all => $filter->curry::program_change);
 
 This filter handles MIDI program/patch change messages over the
-configured MIDI B<channel> with the B<trigger>.
+configured MIDI B<channel> with the B<trigger> and B<value>.
 
 =cut
 
 sub program_change ($self, $device, $dt, $event) {
-    my ($ev, $chan) = $event->@*;
+    my ($ev, $chan, $note, $val) = $event->@*;
 
-    return 0 unless defined $self->trigger;
+    return 0 if defined $self->trigger && defined $note && $note != $self->trigger;
+    return 0 if defined $self->value   && defined $val  && $val  != $self->value;
 
-    my $program = $self->trigger;
+    my $program = $self->value;
 
+    say "Program change: $program" if $self->verbose;
     $self->rtc->send_it([ 'patch_change', $self->channel, $program ]);
 
     return $self->continue;
