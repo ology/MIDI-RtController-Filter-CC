@@ -300,8 +300,8 @@ sub clock_it ($self, $device, $dt, $event) {
 
     $self->rtc->loop->add(
         IO::Async::Timer::Periodic->new(
-            interval  => $self->time_step,
-            on_tick => sub {
+            interval => $self->time_step,
+            on_tick  => sub {
                 my ($c) = @_;
                 if ($self->halt) {
                     $self->rtc->send_it(['stop']);
